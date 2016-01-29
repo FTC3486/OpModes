@@ -27,7 +27,7 @@ public class TeleOp2016 extends OpMode{
     Turret turret;
     Plow plow;
     Pickup pickup;
-    ClimberDump climberDump;
+    //ClimberDump climberDump;
 
     @Override
     public void init() {
@@ -48,7 +48,7 @@ public class TeleOp2016 extends OpMode{
         turret = new Turret("swivel", "extender", "dumper", hardwareMap);
         plow = new Plow("leftPlow", "rightPlow", hardwareMap);
         pickup = new Pickup("pickup", hardwareMap);
-        climberDump = new ClimberDump("climberDump", hardwareMap);
+        //climberDump = new ClimberDump("climberDump", hardwareMap);
     }
 
 
@@ -58,6 +58,7 @@ public class TeleOp2016 extends OpMode{
         joy2.update(gamepad2);
 
         // Gamepad 1
+        // TODO:Remove reverse button; Wesley only wanted to test;
         if(joy1.toggle.x) {
             driver.tank_drive(gamepad1, Driver.Direction.BACKWARD);
         } else {
