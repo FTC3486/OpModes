@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by Matthew on 8/11/2015.
  */
+
 public class TeleOp2016 extends OpMode{
     GamepadWrapper joy1;
     GamepadWrapper joy2;
@@ -58,11 +59,11 @@ public class TeleOp2016 extends OpMode{
         joy2.update(gamepad2);
 
         // Gamepad 1
-        // TODO:Remove reverse button; Wesley only wanted to test;
+        //TODO: Reverse FORWARD and BACKWARD in driver class to be more clear
         if(joy1.toggle.x) {
-            driver.tank_drive(gamepad1, Driver.Direction.BACKWARD);
-        } else {
             driver.tank_drive(gamepad1, Driver.Direction.FORWARD);
+        } else {
+            driver.tank_drive(gamepad1, Driver.Direction.BACKWARD);
         }
 
         if(gamepad1.right_trigger > 0.7){
@@ -77,7 +78,7 @@ public class TeleOp2016 extends OpMode{
             plow.goDown();
         }
 
-        if(joy1.toggle.a){
+        if(gamepad1.a){
             parkingBrake.brake();
         } else {
             parkingBrake.release();
