@@ -53,6 +53,76 @@ public class LinearAutoMode extends LinearOpMode {
     Pickup pickup;
     GyroSensor gyroSensor;
 
+    //TODO: Reorganize/Move these methods
+    public void resetDriveMotorEncoders(DcMotor leftMotorWithEncoder, DcMotor rightMotorWithEncoder)
+        throws InterruptedException {
+        leftMotorWithEncoder.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rightMotorWithEncoder.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        waitOneFullHardwareCycle();
+
+        leftMotorWithEncoder.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        rightMotorWithEncoder.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        waitOneFullHardwareCycle();
+    }
+
+    public void driveForwardtoEncoderCount(int encoderCount) {
+        while(leftfront.getCurrentPosition() < encoderCount && rightfront.getCurrentPosition() < encoderCount
+            && this.opModeIsActive()) {
+
+            leftfront.setPower(.6f);
+            leftback.setPower(.6f);
+            rightfront.setPower(.6f);
+            rightback.setPower(.6f);
+        }
+
+        leftfront.setPower(0.0f);
+        leftback.setPower(0.0f);
+        rightfront.setPower(0.0f);
+        rightback.setPower(0.0f);
+    }
+
+    public void counterClockwiseGyroTurn(int gyroHeading) {
+        while(gyroSensor.getHeading() < gyroHeading && this.opModeIsActive()) {
+            leftfront.setPower(-1.0f);
+            leftback.setPower(-1.0f);
+            rightfront.setPower(1.0f);
+            rightback.setPower(1.0f);
+        }
+
+        while(gyroSensor.getHeading() > gyroHeading && this.opModeIsActive()) {
+            leftfront.setPower(-1.0f);
+            leftback.setPower(-1.0f);
+            rightfront.setPower(1.0f);
+            rightback.setPower(1.0f);
+        }
+
+        leftfront.setPower(0.0f);
+        leftback.setPower(0.0f);
+        rightfront.setPower(0.0f);
+        rightback.setPower(0.0f);
+    }
+
+    public void clockwiseGyroTurn(int gyroHeading) {
+        while(gyroSensor.getHeading() > gyroHeading && this.opModeIsActive()) {
+            leftfront.setPower(1.0f);
+            leftback.setPower(1.0f);
+            rightfront.setPower(-1.0f);
+            rightback.setPower(-1.0f);
+        }
+
+        while(gyroSensor.getHeading() < gyroHeading && this.opModeIsActive()) {
+            leftfront.setPower(1.0f);
+            leftback.setPower(1.0f);
+            rightfront.setPower(-1.0f);
+            rightback.setPower(-1.0f);
+        }
+
+        leftfront.setPower(0.0f);
+        leftback.setPower(0.0f);
+        rightfront.setPower(0.0f);
+        rightback.setPower(0.0f);
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         leftfront = hardwareMap.dcMotor.get("leftfront");
@@ -69,17 +139,10 @@ public class LinearAutoMode extends LinearOpMode {
         gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
 
         // wait for the start button to be pressed
-        leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        rightfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        waitOneFullHardwareCycle();
-
-        leftfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        rightfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        waitOneFullHardwareCycle();
-
         gyroSensor.calibrate();
-
         waitForStart();
+
+        resetDriveMotorEncoders(leftfront, rightfront);
 
         while(gyroSensor.isCalibrating()) {
             waitOneFullHardwareCycle();
@@ -89,69 +152,20 @@ public class LinearAutoMode extends LinearOpMode {
             rightback.setPower(0.0f);
         }
 
-        while(leftfront.getCurrentPosition() < 1500 && rightfront.getCurrentPosition() < 1500 && this.opModeIsActive()) {
-            leftfront.setPower(.6f);
-            leftback.setPower(.6f);
-            rightfront.setPower(.6f);
-            rightback.setPower(.6f);
-        }
+        driveForwardtoEncoderCount(1500);
 
-        leftfront.setPower(0.0f);
-        leftback.setPower(0.0f);
-        rightfront.setPower(0.0f);
-        rightback.setPower(0.0f);
-        waitOneFullHardwareCycle();
-        leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        rightfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        waitOneFullHardwareCycle();
-        leftfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        rightfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        waitOneFullHardwareCycle();
+        resetDriveMotorEncoders(leftfront, rightfront);
 
         timer.reset();
-        while(timer.time() < 500 && this.opModeIsActive()) {
-            waitOneFullHardwareCycle();
-        }
+        while(timer.time() < 500 && this.opModeIsActive()) { }
 
-        while(gyroSensor.getHeading() < 330 && this.opModeIsActive()) {
-            leftfront.setPower(-1.0f);
-            leftback.setPower(-1.0f);
-            rightfront.setPower(1.0f);
-            rightback.setPower(1.0f);
-        }
-
-        while(gyroSensor.getHeading() > 330 && this.opModeIsActive()) {
-            leftfront.setPower(-1.0f);
-            leftback.setPower(-1.0f);
-            rightfront.setPower(1.0f);
-            rightback.setPower(1.0f);
-        }
-
-        leftfront.setPower(0.0f);
-        leftback.setPower(0.0f);
-        rightfront.setPower(0.0f);
-        rightback.setPower(0.0f);
+        counterClockwiseGyroTurn(330);
 
         timer.reset();
-        while(timer.time() < 500 && this.opModeIsActive()) {waitOneFullHardwareCycle(); }
+        while(timer.time() < 500 && this.opModeIsActive()) { }
 
-        waitOneFullHardwareCycle();
-        leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        rightfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        waitOneFullHardwareCycle();
-        leftfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        rightfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        resetDriveMotorEncoders(leftfront, rightfront);
 
-        while(leftfront.getCurrentPosition() < 6000 && rightfront.getCurrentPosition() < 6000 && this.opModeIsActive()) {
-            leftfront.setPower(.6f);
-            leftback.setPower(.6f);
-            rightfront.setPower(.6f);
-            rightback.setPower(.6f);
-        }
-
-        leftfront.setPower(0.0f);
-        leftback.setPower(0.0f);
-        rightfront.setPower(0.0f);
-        rightback.setPower(0.0f);
+        driveForwardtoEncoderCount(6000);
     }
 }
