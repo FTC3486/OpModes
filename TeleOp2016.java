@@ -15,7 +15,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by Matthew on 8/11/2015.
  */
-
 public class TeleOp2016 extends OpMode{
     GamepadWrapper joy1;
     GamepadWrapper joy2;
@@ -28,7 +27,7 @@ public class TeleOp2016 extends OpMode{
     Turret turret;
     Plow plow;
     Pickup pickup;
-    //ClimberDump climberDump;
+    ClimberDump climberDump;
 
     @Override
     public void init() {
@@ -49,7 +48,7 @@ public class TeleOp2016 extends OpMode{
         turret = new Turret("swivel", "extender", "dumper", hardwareMap);
         plow = new Plow("leftPlow", "rightPlow", hardwareMap);
         pickup = new Pickup("pickup", hardwareMap);
-        //climberDump = new ClimberDump("climberDump", hardwareMap);
+        climberDump = new ClimberDump("climberDump", hardwareMap);
     }
 
 
@@ -59,11 +58,11 @@ public class TeleOp2016 extends OpMode{
         joy2.update(gamepad2);
 
         // Gamepad 1
-        //TODO: Reverse FORWARD and BACKWARD in driver class to be more clear
+        // TODO:Remove reverse button; Wesley only wanted to test;
         if(joy1.toggle.x) {
-            driver.tank_drive(gamepad1, Driver.Direction.FORWARD);
-        } else {
             driver.tank_drive(gamepad1, Driver.Direction.BACKWARD);
+        } else {
+            driver.tank_drive(gamepad1, Driver.Direction.FORWARD);
         }
 
         if(gamepad1.right_trigger > 0.7){
@@ -82,6 +81,12 @@ public class TeleOp2016 extends OpMode{
             parkingBrake.brake();
         } else {
             parkingBrake.release();
+        }
+
+        if(gamepad1.dpad_down) {
+            climberDump.dumpClimbers();
+        } else {
+            climberDump.holdClimbers();
         }
 
         // Gamepad 2
@@ -127,8 +132,6 @@ public class TeleOp2016 extends OpMode{
 
         if(joy2.toggle.left_bumper) {
            pickup.collect();
-        } else if(gamepad2.left_trigger > 0.2) {
-            pickup.reverse();
         } else {
             pickup.stop();
         }
