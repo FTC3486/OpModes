@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package com.FTC3486.OpModes;
 
 import com.FTC3486.FTCRC_Extensions.Driver;
+import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
 import com.FTC3486.Subsystems.Pickup;
 import com.FTC3486.Subsystems.Plow;
@@ -52,6 +53,7 @@ public class RedAutoMode extends LinearOpMode {
     Plow plow;
     Pickup pickup;
     GyroSensor gyroSensor;
+    ClimberDump climberDump;
 
     //TODO: Reorganize/Move these methods
     public void resetDriveMotorEncoders(DcMotor leftMotorWithEncoder, DcMotor rightMotorWithEncoder)
@@ -82,18 +84,17 @@ public class RedAutoMode extends LinearOpMode {
     }
 
     public void counterClockwiseGyroTurn(int gyroHeading) {
+        leftfront.setPower(-0.5f);
+        leftback.setPower(-0.5f);
+        rightfront.setPower(0.5f);
+        rightback.setPower(0.5f);
+
         while(gyroSensor.getHeading() < gyroHeading && this.opModeIsActive()) {
-            leftfront.setPower(-0.5f);
-            leftback.setPower(-0.5f);
-            rightfront.setPower(0.5f);
-            rightback.setPower(0.5f);
+            telemetry.addData("Gyro Heading", gyroSensor.getHeading());
         }
 
         while(gyroSensor.getHeading() > gyroHeading && this.opModeIsActive()) {
-            leftfront.setPower(-0.5f);
-            leftback.setPower(-0.5f);
-            rightfront.setPower(0.5f);
-            rightback.setPower(0.5f);
+            telemetry.addData("Gyro Heading", gyroSensor.getHeading());
         }
     }
 
@@ -132,35 +133,82 @@ public class RedAutoMode extends LinearOpMode {
         plow = new Plow("leftPlow", "rightPlow", hardwareMap);
         pickup = new Pickup("pickup", hardwareMap);
         gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
+        climberDump = new ClimberDump("climberDump", hardwareMap);
 
         // wait for the start button to be pressed
+        gyroSensor.calibrate();
+        waitOneFullHardwareCycle();
 
         waitForStart();
 
-        while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
-            resetDriveMotorEncoders(leftfront, rightfront);
-            waitOneFullHardwareCycle();
+        while(gyroSensor.isCalibrating() && this.opModeIsActive()) {
+            sleep(1);
+        }
+
+        leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rightfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+        while( (leftfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) && (this.opModeIsActive()) ) {
+            sleep(1);
+        }
+
+        while( (leftfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) && (this.opModeIsActive()) ) {
+            sleep(1);
+        }
+
+        while( (leftfront.getCurrentPosition() != 0) || (rightfront.getCurrentPosition() != 0) && (this.opModeIsActive()) ) {
+            sleep(1);
+        }
+
+        if(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0) {
+            telemetry.addData("LeftMotorMode", leftfront.getMode());
+            telemetry.addData("RightMotorMode", rightfront.getMode());
+            telemetry.addData("Error, Left Encoders.", leftfront.getCurrentPosition());
+            telemetry.addData("Error, Right Encoders.", rightfront.getCurrentPosition());
             leftfront.setPower(0.0f);
             leftback.setPower(0.0f);
             rightfront.setPower(0.0f);
             rightback.setPower(0.0f);
+            sleep(2000);
         }
+
+        /*while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
+            sleep(1);
+        }*/
+
+        leftfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        rightfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+        while( (leftfront.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS) && (this.opModeIsActive())) {
+            sleep(1);
+        }
+
+        telemetry.addData("LeftMotorMode", leftfront.getMode());
+        telemetry.addData("RightMotorMode", rightfront.getMode());
 
         driveForwardtoEncoderCount(1500);
 
         timer.reset();
-        while(timer.time() < 500 && this.opModeIsActive()) { }
-
-        while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
-            resetDriveMotorEncoders(leftfront, rightfront);
-            waitOneFullHardwareCycle();
-            leftfront.setPower(0.0f);
-            leftback.setPower(0.0f);
-            rightfront.setPower(0.0f);
-            rightback.setPower(0.0f);
+        while(timer.time() < 500 && this.opModeIsActive()) {
         }
 
-        while(leftfront.getCurrentPosition() > -475 && rightfront.getCurrentPosition() < 475 && this.opModeIsActive()) {
+        leftfront.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        rightfront.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+
+        while( (leftfront.getMode() != DcMotorController.RunMode.RUN_WITHOUT_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RUN_WITHOUT_ENCODERS) && (this.opModeIsActive())) {
+            sleep(1);
+        }
+
+        telemetry.addData("LeftMotorMode", leftfront.getMode());
+        telemetry.addData("RightMotorMode", rightfront.getMode());
+
+        counterClockwiseGyroTurn(342);
+        leftfront.setPower(0.0f);
+        leftback.setPower(0.0f);
+        rightfront.setPower(0.0f);
+        rightback.setPower(0.0f);
+
+        /*while(leftfront.getCurrentPosition() > -475 && rightfront.getCurrentPosition() < 475 && this.opModeIsActive()) {
             leftfront.setPower(-0.5f);
             leftback.setPower(-0.5f);
             rightfront.setPower(0.5f);
@@ -169,28 +217,83 @@ public class RedAutoMode extends LinearOpMode {
         leftfront.setPower(0.0f);
         leftback.setPower(0.0f);
         rightfront.setPower(0.0f);
-        rightback.setPower(0.0f);
+        rightback.setPower(0.0f);*/
 
         timer.reset();
         while(timer.time() < 500 && this.opModeIsActive()) { }
 
-        while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
-            resetDriveMotorEncoders(leftfront, rightfront);
-            waitOneFullHardwareCycle();
+        leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rightfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+        while( (leftfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) && (this.opModeIsActive()) ) {
+            sleep(1);
         }
 
-        driveForwardtoEncoderCount(5250);
+        while( (leftfront.getCurrentPosition() != 0) || (rightfront.getCurrentPosition() != 0) && (this.opModeIsActive()) ) {
+            sleep(1);
+        }
 
-        timer.reset();
-        while(timer.time() < 500 && this.opModeIsActive()) { }
-
-        while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
-            resetDriveMotorEncoders(leftfront, rightfront);
-            waitOneFullHardwareCycle();
+        if(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0) {
+            telemetry.addData("LeftMotorMode", leftfront.getMode());
+            telemetry.addData("RightMotorMode", rightfront.getMode());
+            telemetry.addData("Error, Left Encoders.", leftfront.getCurrentPosition());
+            telemetry.addData("Error, Right Encoders.", rightfront.getCurrentPosition());
             leftfront.setPower(0.0f);
             leftback.setPower(0.0f);
             rightfront.setPower(0.0f);
             rightback.setPower(0.0f);
+            sleep(2000);
         }
+
+        leftfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        rightfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+        while( (leftfront.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS) && (this.opModeIsActive()) ) {
+            sleep(1);
+        }
+
+        driveForwardtoEncoderCount(5000);
+
+        timer.reset();
+        while (timer.time() < 500 && this.opModeIsActive()) { }
+
+        //counterClockwiseGyroTurn(270);
+        leftfront.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        rightfront.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+
+        while( (leftfront.getMode() != DcMotorController.RunMode.RUN_WITHOUT_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RUN_WITHOUT_ENCODERS) && (this.opModeIsActive())) {
+            sleep(1);
+        }
+
+        telemetry.addData("GyroReading:", gyroSensor.getHeading());
+        telemetry.addData("LeftMotorMode", leftfront.getMode());
+        telemetry.addData("RightMotorMode", rightfront.getMode());
+
+        leftfront.setPower(-0.5f);
+        leftback.setPower(-0.5f);
+        rightfront.setPower(0.5f);
+        rightback.setPower(0.5f);
+
+        while(gyroSensor.getHeading() > 270 && this.opModeIsActive()) {
+            telemetry.addData("Gyro Heading", gyroSensor.getHeading());
+        }
+
+        telemetry.addData("Out of loop", gyroSensor.getHeading());
+        telemetry.addData("LeftMotorMode", leftfront.getMode());
+        telemetry.addData("RightMotorMode", rightfront.getMode());
+        leftfront.setPower(0.0f);
+        leftback.setPower(0.0f);
+        rightfront.setPower(0.0f);
+        rightback.setPower(0.0f);
+        telemetry.addData("Stopped Motors", gyroSensor.getHeading());
+        telemetry.addData("LeftMotorMode", leftfront.getMode());
+        telemetry.addData("RightMotorMode", rightfront.getMode());
+
+        /*leftfront.setPower(-1.0f);
+        leftback.setPower(-1.0f);
+        rightfront.setPower(-1.0f);
+        rightback.setPower(-1.0f);*/
+
+
     }
 }
