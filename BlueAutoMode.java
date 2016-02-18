@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package com.FTC3486.OpModes;
 
 import com.FTC3486.FTCRC_Extensions.Driver;
+import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
 import com.FTC3486.Subsystems.Pickup;
 import com.FTC3486.Subsystems.Plow;
@@ -52,6 +53,7 @@ public class BlueAutoMode extends LinearOpMode {
     Plow plow;
     Pickup pickup;
     GyroSensor gyroSensor;
+    ClimberDump climberDump;
 
     //TODO: Reorganize/Move these methods
     public void resetDriveMotorEncoders(DcMotor leftMotorWithEncoder, DcMotor rightMotorWithEncoder)
@@ -132,6 +134,7 @@ public class BlueAutoMode extends LinearOpMode {
         plow = new Plow("leftPlow", "rightPlow", hardwareMap);
         pickup = new Pickup("pickup", hardwareMap);
         gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
+        climberDump = new ClimberDump("climberDump", hardwareMap);
 
         // wait for the start button to be pressed
 
