@@ -85,8 +85,9 @@ public class TeleOp2016 extends OpMode{
 
         if(gamepad1.dpad_down) {
             climberDump.dumpClimbers();
-        } else {
-            climberDump.holdClimbers();
+            climberDump.hasDumped = true;
+        } else if(climberDump.hasDumped){
+            climberDump.stayVertical();
         }
 
         // Gamepad 2
