@@ -1,6 +1,7 @@
 package com.FTC3486.OpModes;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.Driver;
+import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.FTCRC_Extensions.GamepadWrapper;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
@@ -35,10 +36,10 @@ public class TeleOp2016 extends OpMode{
         joy2 = new GamepadWrapper();
 
         driveTrain = new DriveTrain.Builder()
-                .addLeftMotor(hardwareMap.dcMotor.get("leftfront"))
-                .addLeftMotorWithEncoder(hardwareMap.dcMotor.get("leftback"))
-                .addRightMotor(hardwareMap.dcMotor.get("rightfront"))
-                .addRightMotorWithEncoder(hardwareMap.dcMotor.get("rightback"))
+                .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
+                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront")))
+                .addRightMotor(hardwareMap.dcMotor.get("rightback"))
+                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
                 .build();
         driver = new Driver(this, driveTrain);
 
@@ -107,33 +108,37 @@ public class TeleOp2016 extends OpMode{
             tapeMeasure.stopTilt();
         }
 
-        if(gamepad2.left_stick_x > 0.2) {
+        if(gamepad2.y) {
+            tapeMeasure.tiltBack();
+        }
+
+        if(gamepad2.left_stick_x > 0.8) {
             turret.swivelRight();
-        } else if(gamepad2.left_stick_x < -0.2) {
+        } else if(gamepad2.left_stick_x < -0.8) {
             turret.swivelLeft();
         } else {
             turret.swivelStop();
         }
 
-        if(gamepad2.right_stick_x > 0.2) {
+        if(joy2.toggle.b) {
             turret.dumperSwivelRight();
-        } else if(gamepad2.right_stick_x < -0.2) {
+        } else if(joy2.toggle.x) {
             turret.dumperSwivelLeft();
         } else {
             turret.dumperSwivelCenter();
         }
 
-        if(gamepad2.a) {
-            turret.retract();
-        } else if(gamepad2.y) {
+        if(gamepad2.left_stick_y > 0.8) {
             turret.extend();
+        } else if(gamepad2.left_stick_y < -0.8) {
+            turret.retract();
         } else {
             turret.extenderStop();
         }
 
         if(gamepad2.right_bumper) {
             turret.wholeDumpDebris();
-        } else if(gamepad2.x) {
+        } else if(gamepad2.a) {
             turret.halfDumpDebris();
         } else {
             turret.holdDebris();

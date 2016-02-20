@@ -1,6 +1,7 @@
 package com.FTC3486.OpModes;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.Driver;
+import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.FTCRC_Extensions.ExtendedServo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -65,10 +66,10 @@ public class TankDriveOpMode extends OpMode{
         rightback = hardwareMap.dcMotor.get("rightback");
         rightback.setDirection(DcMotor.Direction.REVERSE);
         driveTrain = new DriveTrain.Builder()
-                .addLeftMotor(leftfront)
-                .addLeftMotorWithEncoder(leftback)
-                .addRightMotor(rightfront)
-                .addRightMotorWithEncoder(rightback)
+                .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
+                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront")))
+                .addRightMotor(hardwareMap.dcMotor.get("rightback"))
+                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
                 .build();
         driver = new Driver(this, driveTrain);
 

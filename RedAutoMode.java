@@ -25,7 +25,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.FTC3486.OpModes;
 
+import com.FTC3486.FTCRC_Extensions.AutoDriver;
+import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.Driver;
+import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
 import com.FTC3486.Subsystems.Pickup;
@@ -45,7 +48,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class RedAutoMode extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
     Driver driver;
-    DcMotor leftfront, leftback, rightfront, rightback;
+    DcMotor leftback, rightback;
+    ExtendedDcMotor leftfront, rightfront;
     TapeMeasure tapeMeasure;
     Winch winch;
     ParkingBrake parkingBrake;
@@ -54,6 +58,8 @@ public class RedAutoMode extends LinearOpMode {
     Pickup pickup;
     GyroSensor gyroSensor;
     ClimberDump climberDump;
+    DriveTrain driveTrain;
+    AutoDriver autoDriver;
 
     //TODO: Reorganize/Move these methods
     public void resetDriveMotorEncoders(DcMotor leftMotorWithEncoder, DcMotor rightMotorWithEncoder)
@@ -121,11 +127,14 @@ public class RedAutoMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        leftfront = hardwareMap.dcMotor.get("leftfront");
-        leftback = hardwareMap.dcMotor.get("leftback");
-        rightfront = hardwareMap.dcMotor.get("rightfront");
-        rightback = hardwareMap.dcMotor.get("rightback");
 
+        driveTrain = new DriveTrain.Builder()
+                .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
+                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront")))
+                .addRightMotor(hardwareMap.dcMotor.get("rightback"))
+                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
+                .build();
+        autoDriver = new AutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
@@ -145,12 +154,11 @@ public class RedAutoMode extends LinearOpMode {
             sleep(1);
         }
 
-        leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        rightfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        autoDriver.driveForwardtoEncoderCount(1500, 1.0);
+        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 342, 1.0 );
 
-        while( (leftfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) && (this.opModeIsActive()) ) {
-            sleep(1);
-        }
+        /*leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        rightfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
         while( (leftfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RESET_ENCODERS) && (this.opModeIsActive()) ) {
             sleep(1);
@@ -170,13 +178,13 @@ public class RedAutoMode extends LinearOpMode {
             rightfront.setPower(0.0f);
             rightback.setPower(0.0f);
             sleep(2000);
-        }
+        }*/
 
         /*while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
             sleep(1);
         }*/
 
-        leftfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        /*leftfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         rightfront.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
         while( (leftfront.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS) || (rightfront.getMode() != DcMotorController.RunMode.RUN_USING_ENCODERS) && (this.opModeIsActive())) {
@@ -219,7 +227,7 @@ public class RedAutoMode extends LinearOpMode {
         rightfront.setPower(0.0f);
         rightback.setPower(0.0f);*/
 
-        timer.reset();
+        /*timer.reset();
         while(timer.time() < 500 && this.opModeIsActive()) { }
 
         leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -287,7 +295,7 @@ public class RedAutoMode extends LinearOpMode {
         rightback.setPower(0.0f);
         telemetry.addData("Stopped Motors", gyroSensor.getHeading());
         telemetry.addData("LeftMotorMode", leftfront.getMode());
-        telemetry.addData("RightMotorMode", rightfront.getMode());
+        telemetry.addData("RightMotorMode", rightfront.getMode());*/
 
         /*leftfront.setPower(-1.0f);
         leftback.setPower(-1.0f);
