@@ -45,7 +45,7 @@ public class TeleOp2016 extends OpMode{
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
-        turret = new Turret("swivel", "extender", "dumper", hardwareMap);
+        turret = new Turret("swivel", "extender", "dumper", "dumperSwivel", hardwareMap);
         plow = new Plow("leftPlow", "rightPlow", hardwareMap);
         pickup = new Pickup("pickup", hardwareMap);
         climberDump = new ClimberDump("climberDump", hardwareMap);
@@ -115,6 +115,14 @@ public class TeleOp2016 extends OpMode{
             turret.swivelStop();
         }
 
+        if(gamepad2.right_stick_x > 0.2) {
+            turret.dumperSwivelRight();
+        } else if(gamepad2.right_stick_x < -0.2) {
+            turret.dumperSwivelLeft();
+        } else {
+            turret.dumperSwivelCenter();
+        }
+
         if(gamepad2.a) {
             turret.retract();
         } else if(gamepad2.y) {
@@ -133,6 +141,8 @@ public class TeleOp2016 extends OpMode{
 
         if(joy2.toggle.left_bumper) {
            pickup.collect();
+        } else if(joy2.toggle.start) {
+            pickup.reverse();
         } else {
             pickup.stop();
         }

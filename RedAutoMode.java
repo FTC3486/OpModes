@@ -129,7 +129,7 @@ public class RedAutoMode extends LinearOpMode {
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
-        turret = new Turret("swivel", "extender", "dumper", hardwareMap);
+        turret = new Turret("swivel", "extender", "dumper", "dumperSwivel", hardwareMap);
         plow = new Plow("leftPlow", "rightPlow", hardwareMap);
         pickup = new Pickup("pickup", hardwareMap);
         gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
