@@ -154,8 +154,37 @@ public class RedAutoMode extends LinearOpMode {
             sleep(1);
         }
 
-        autoDriver.driveForwardtoEncoderCount(1500, 1.0);
-        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 342, 1.0 );
+        autoDriver.waitMilliseconds(500);
+
+        autoDriver.driveForwardtoEncoderCountWithCorrection(1600, 1.0, 0);
+
+        autoDriver.waitMilliseconds(500);
+
+        //The double turn increases accuracy. 
+        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 345, 0.25);
+        autoDriver.waitMilliseconds(500);
+        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 315, 0.15);
+
+        autoDriver.waitMilliseconds(500);
+
+        autoDriver.driveForwardtoEncoderCountWithCorrection(7000, 1.0, 315);
+
+        autoDriver.waitMilliseconds(500);
+
+        autoDriver.gyroTurn("CLOCKWISE", 45, 0.25);
+        autoDriver.waitMilliseconds(500);
+        autoDriver.gyroTurn("CLOCKWISE", 87, 0.15);
+
+        autoDriver.waitMilliseconds(500);
+
+        autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
+
+        climberDump.dumpClimbers();
+
+        autoDriver.waitMilliseconds(2000);
+
+        climberDump.holdClimbers();
+
 
         /*leftfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         rightfront.setMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -194,7 +223,7 @@ public class RedAutoMode extends LinearOpMode {
         telemetry.addData("LeftMotorMode", leftfront.getMode());
         telemetry.addData("RightMotorMode", rightfront.getMode());
 
-        driveForwardtoEncoderCount(1500);
+        driveForwardtoEncoderCountWithCorrection(1500);
 
         timer.reset();
         while(timer.time() < 500 && this.opModeIsActive()) {
@@ -260,7 +289,7 @@ public class RedAutoMode extends LinearOpMode {
             sleep(1);
         }
 
-        driveForwardtoEncoderCount(5000);
+        driveForwardtoEncoderCountWithCorrection(5000);
 
         timer.reset();
         while (timer.time() < 500 && this.opModeIsActive()) { }
