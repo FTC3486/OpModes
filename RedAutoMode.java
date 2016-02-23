@@ -27,7 +27,6 @@ package com.FTC3486.OpModes;
 
 import com.FTC3486.FTCRC_Extensions.AutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
-import com.FTC3486.FTCRC_Extensions.Driver;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
@@ -47,7 +46,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class RedAutoMode extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-    Driver driver;
     DcMotor leftback, rightback;
     ExtendedDcMotor leftfront, rightfront;
     TapeMeasure tapeMeasure;

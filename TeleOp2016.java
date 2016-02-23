@@ -21,7 +21,6 @@ public class TeleOp2016 extends OpMode{
     GamepadWrapper joy2;
     DriveTrain driveTrain;
     Driver driver;
-    DcMotor leftfront, leftback, rightfront, rightback;
     TapeMeasure tapeMeasure;
     Winch winch;
     ParkingBrake parkingBrake;

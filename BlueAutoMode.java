@@ -25,7 +25,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.FTC3486.OpModes;
 
-import com.FTC3486.FTCRC_Extensions.Driver;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
 import com.FTC3486.Subsystems.Pickup;
@@ -44,7 +43,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class BlueAutoMode extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-    Driver driver;
     DcMotor leftfront, leftback, rightfront, rightback;
     TapeMeasure tapeMeasure;
     Winch winch;
