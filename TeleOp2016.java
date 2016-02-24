@@ -1,6 +1,6 @@
 package com.FTC3486.OpModes;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
-import com.FTC3486.FTCRC_Extensions.Driver;
+import com.FTC3486.FTCRC_Extensions.TeleopDriver;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.FTCRC_Extensions.GamepadWrapper;
 import com.FTC3486.Subsystems.ClimberDump;
@@ -11,7 +11,6 @@ import com.FTC3486.Subsystems.TapeMeasure;
 import com.FTC3486.Subsystems.Turret;
 import com.FTC3486.Subsystems.Winch;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by Matthew on 8/11/2015.
@@ -20,7 +19,7 @@ public class TeleOp2016 extends OpMode{
     GamepadWrapper joy1;
     GamepadWrapper joy2;
     DriveTrain driveTrain;
-    Driver driver;
+    TeleopDriver teleopDriver;
     TapeMeasure tapeMeasure;
     Winch winch;
     ParkingBrake parkingBrake;
@@ -40,7 +39,7 @@ public class TeleOp2016 extends OpMode{
                 .addRightMotor(hardwareMap.dcMotor.get("rightback"))
                 .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
                 .build();
-        driver = new Driver(this, driveTrain);
+        teleopDriver = new TeleopDriver(this, driveTrain);
 
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
@@ -60,9 +59,9 @@ public class TeleOp2016 extends OpMode{
         // Gamepad 1
         // TODO:Remove reverse button; Wesley only wanted to test;
         if(joy1.toggle.x) {
-            driver.tank_drive(gamepad1, Driver.Direction.BACKWARD);
+            teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.BACKWARD);
         } else {
-            driver.tank_drive(gamepad1, Driver.Direction.FORWARD);
+            teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.FORWARD);
         }
 
         if(gamepad1.right_trigger > 0.7){
