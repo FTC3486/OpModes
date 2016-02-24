@@ -44,9 +44,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Created by Matthew on 11/25/2015.
  */
 public class BlueAutoMode extends LinearOpMode {
-    ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-    DcMotor leftback, rightback;
-    ExtendedDcMotor leftfront, rightfront;
     TapeMeasure tapeMeasure;
     Winch winch;
     ParkingBrake parkingBrake;
