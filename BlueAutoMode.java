@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.FTC3486.OpModes;
 
-import com.FTC3486.FTCRC_Extensions.AutoDriver;
+import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.Subsystems.ClimberDump;
@@ -36,9 +36,7 @@ import com.FTC3486.Subsystems.TapeMeasure;
 import com.FTC3486.Subsystems.Turret;
 import com.FTC3486.Subsystems.Winch;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by Matthew on 11/25/2015.
@@ -53,7 +51,7 @@ public class BlueAutoMode extends LinearOpMode {
     GyroSensor gyroSensor;
     ClimberDump climberDump;
     DriveTrain driveTrain;
-    AutoDriver autoDriver;
+    GyroscopeAutoDriver autoDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -64,7 +62,7 @@ public class BlueAutoMode extends LinearOpMode {
                 .addRightMotor(hardwareMap.dcMotor.get("rightback"))
                 .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
                 .build();
-        autoDriver = new AutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
+        autoDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
