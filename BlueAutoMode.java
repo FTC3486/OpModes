@@ -25,6 +25,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.FTC3486.OpModes;
 
+import com.FTC3486.FTCRC_Extensions.AutoDriver;
+import com.FTC3486.FTCRC_Extensions.DriveTrain;
+import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
 import com.FTC3486.Subsystems.Pickup;
@@ -34,7 +37,6 @@ import com.FTC3486.Subsystems.Turret;
 import com.FTC3486.Subsystems.Winch;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -43,7 +45,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class BlueAutoMode extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-    DcMotor leftfront, leftback, rightfront, rightback;
+    DcMotor leftback, rightback;
+    ExtendedDcMotor leftfront, rightfront;
     TapeMeasure tapeMeasure;
     Winch winch;
     ParkingBrake parkingBrake;
@@ -52,79 +55,19 @@ public class BlueAutoMode extends LinearOpMode {
     Pickup pickup;
     GyroSensor gyroSensor;
     ClimberDump climberDump;
-
-    //TODO: Reorganize/Move these methods
-    public void resetDriveMotorEncoders(DcMotor leftMotorWithEncoder, DcMotor rightMotorWithEncoder)
-            throws InterruptedException {
-        leftMotorWithEncoder.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        rightMotorWithEncoder.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        waitOneFullHardwareCycle();
-
-        leftMotorWithEncoder.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        rightMotorWithEncoder.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        waitOneFullHardwareCycle();
-    }
-
-    public void driveForwardtoEncoderCount(int encoderCount) {
-        while(leftfront.getCurrentPosition() < encoderCount && rightfront.getCurrentPosition() < encoderCount
-                && this.opModeIsActive()) {
-
-            leftfront.setPower(.6f);
-            leftback.setPower(.6f);
-            rightfront.setPower(.6f);
-            rightback.setPower(.6f);
-        }
-
-        leftfront.setPower(0.0f);
-        leftback.setPower(0.0f);
-        rightfront.setPower(0.0f);
-        rightback.setPower(0.0f);
-    }
-
-    public void counterClockwiseGyroTurn(int gyroHeading) {
-        while(gyroSensor.getHeading() < gyroHeading && this.opModeIsActive()) {
-            leftfront.setPower(-0.5f);
-            leftback.setPower(-0.5f);
-            rightfront.setPower(0.5f);
-            rightback.setPower(0.5f);
-        }
-
-        while(gyroSensor.getHeading() > gyroHeading && this.opModeIsActive()) {
-            leftfront.setPower(-0.5f);
-            leftback.setPower(-0.5f);
-            rightfront.setPower(0.5f);
-            rightback.setPower(0.5f);
-        }
-    }
-
-    public void clockwiseGyroTurn(int gyroHeading) {
-        while(gyroSensor.getHeading() > gyroHeading && this.opModeIsActive()) {
-            leftfront.setPower(1.0f);
-            leftback.setPower(1.0f);
-            rightfront.setPower(-1.0f);
-            rightback.setPower(-1.0f);
-        }
-
-        while(gyroSensor.getHeading() < gyroHeading && this.opModeIsActive()) {
-            leftfront.setPower(1.0f);
-            leftback.setPower(1.0f);
-            rightfront.setPower(-1.0f);
-            rightback.setPower(-1.0f);
-        }
-
-        leftfront.setPower(0.0f);
-        leftback.setPower(0.0f);
-        rightfront.setPower(0.0f);
-        rightback.setPower(0.0f);
-    }
+    DriveTrain driveTrain;
+    AutoDriver autoDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        leftfront = hardwareMap.dcMotor.get("leftfront");
-        leftback = hardwareMap.dcMotor.get("leftback");
-        rightfront = hardwareMap.dcMotor.get("rightfront");
-        rightback = hardwareMap.dcMotor.get("rightback");
 
+        driveTrain = new DriveTrain.Builder()
+                .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
+                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront")))
+                .addRightMotor(hardwareMap.dcMotor.get("rightback"))
+                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
+                .build();
+        autoDriver = new AutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
@@ -135,63 +78,45 @@ public class BlueAutoMode extends LinearOpMode {
         climberDump = new ClimberDump("climberDump", hardwareMap);
 
         // wait for the start button to be pressed
+        gyroSensor.calibrate();
+        waitOneFullHardwareCycle();
 
         waitForStart();
 
-        while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
-            resetDriveMotorEncoders(leftfront, rightfront);
-            waitOneFullHardwareCycle();
-            leftfront.setPower(0.0f);
-            leftback.setPower(0.0f);
-            rightfront.setPower(0.0f);
-            rightback.setPower(0.0f);
+        while(gyroSensor.isCalibrating() && this.opModeIsActive()) {
+            sleep(1);
         }
 
-        driveForwardtoEncoderCount(1500);
+        autoDriver.waitMilliseconds(500);
 
-        timer.reset();
-        while(timer.time() < 500 && this.opModeIsActive()) { }
+        autoDriver.driveForwardtoEncoderCountWithCorrection(1600, 1.0, 0);
 
-        while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
-            resetDriveMotorEncoders(leftfront, rightfront);
-            waitOneFullHardwareCycle();
-            leftfront.setPower(0.0f);
-            leftback.setPower(0.0f);
-            rightfront.setPower(0.0f);
-            rightback.setPower(0.0f);
-        }
+        autoDriver.waitMilliseconds(500);
 
-        while(leftfront.getCurrentPosition() < 475 && rightfront.getCurrentPosition() > -475 && this.opModeIsActive()) {
-            leftfront.setPower(0.5f);
-            leftback.setPower(0.5f);
-            rightfront.setPower(-0.5f);
-            rightback.setPower(-0.5f);
-        }
-        leftfront.setPower(0.0f);
-        leftback.setPower(0.0f);
-        rightfront.setPower(0.0f);
-        rightback.setPower(0.0f);
+        //The double turn increases accuracy. 
+        autoDriver.gyroTurn("CLOCKWISE", 15, 0.25);
+        autoDriver.waitMilliseconds(500);
+        autoDriver.gyroTurn("CLOCKWISE", 45, 0.15);
 
-        timer.reset();
-        while(timer.time() < 500 && this.opModeIsActive()) { }
+        autoDriver.waitMilliseconds(500);
 
-        while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
-            resetDriveMotorEncoders(leftfront, rightfront);
-            waitOneFullHardwareCycle();
-        }
+        autoDriver.driveForwardtoEncoderCountWithCorrection(7000, 1.0, 315);
 
-        driveForwardtoEncoderCount(5250);
+        autoDriver.waitMilliseconds(500);
 
-        timer.reset();
-        while(timer.time() < 500 && this.opModeIsActive()) { }
+        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 220, 0.25);
+        autoDriver.waitMilliseconds(500);
+        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 264, 0.15);
 
-        while(leftfront.getCurrentPosition() != 0 && rightfront.getCurrentPosition() != 0 && this.opModeIsActive()) {
-            resetDriveMotorEncoders(leftfront, rightfront);
-            waitOneFullHardwareCycle();
-            leftfront.setPower(0.0f);
-            leftback.setPower(0.0f);
-            rightfront.setPower(0.0f);
-            rightback.setPower(0.0f);
-        }
+        autoDriver.waitMilliseconds(500);
+
+        autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
+
+        climberDump.dumpClimbers();
+
+        autoDriver.waitMilliseconds(2000);
+
+        climberDump.holdClimbers();
+
     }
 }
