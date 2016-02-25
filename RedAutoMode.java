@@ -110,7 +110,7 @@ public class RedAutoMode extends LinearOpMode {
 
         //autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
 
-        autoDriver.set_power(-0.5);
+        autoDriver.set_power(0.5);
         autoDriver.drive_backward(-490);
 
 
