@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.FTC3486.OpModes;
 
-import com.FTC3486.FTCRC_Extensions.EncoderAutoDriver;
+import com.FTC3486.FTCRC_Extensions.AutoDriver;
 import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
@@ -53,7 +53,6 @@ public class RedAutoMode extends LinearOpMode {
     ClimberDump climberDump;
     DriveTrain driveTrain;
     GyroscopeAutoDriver autoDriver;
-    EncoderAutoDriver encoderAutoDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -105,14 +104,14 @@ public class RedAutoMode extends LinearOpMode {
 
         //autoDriver.gyroTurn("CLOCKWISE", 45, 0.25);
         sleep(500);
-        autoDriver.turn_clockwise(136);
+        autoDriver.turn_clockwise(135);
 
         sleep(500);
 
         //autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
 
         autoDriver.set_power(-0.5);
-        autoDriver.drive_backward(-475);
+        autoDriver.drive_backward(-490);
 
 
         climberDump.dumpClimbers();
