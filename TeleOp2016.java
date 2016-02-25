@@ -35,9 +35,9 @@ public class TeleOp2016 extends OpMode{
 
         driveTrain = new DriveTrain.Builder()
                 .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
-                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront")))
+                .addLeftMotorWithEncoder(hardwareMap.dcMotor.get("leftfront"))
                 .addRightMotor(hardwareMap.dcMotor.get("rightback"))
-                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
+                .addRightMotorWithEncoder(hardwareMap.dcMotor.get("rightfront"))
                 .build();
         teleopDriver = new TeleopDriver(this, driveTrain);
 
