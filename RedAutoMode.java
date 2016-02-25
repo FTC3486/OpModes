@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.FTC3486.OpModes;
 
-import com.FTC3486.FTCRC_Extensions.AutoDriver;
+import com.FTC3486.FTCRC_Extensions.EncoderAutoDriver;
 import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
@@ -52,16 +52,17 @@ public class RedAutoMode extends LinearOpMode {
     GyroSensor gyroSensor;
     ClimberDump climberDump;
     DriveTrain driveTrain;
-    AutoDriver autoDriver;
+    GyroscopeAutoDriver autoDriver;
+    EncoderAutoDriver encoderAutoDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         driveTrain = new DriveTrain.Builder()
                 .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
-                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront")))
+                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront"), this))
                 .addRightMotor(hardwareMap.dcMotor.get("rightback"))
-                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
+                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront"), this))
                 .build();
         autoDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
@@ -83,34 +84,40 @@ public class RedAutoMode extends LinearOpMode {
             sleep(1);
         }
 
-        autoDriver.waitMilliseconds(500);
+        sleep(500);
 
-        autoDriver.driveForwardtoEncoderCountWithCorrection(1600, 1.0, 0);
+        //autoDriver.driveForwardtoEncoderCountWithCorrection(1600, 1.0, 0);
+        autoDriver.drive_forward(1600);
 
-        autoDriver.waitMilliseconds(500);
+        sleep(500);
 
         //The double turn increases accuracy.
-        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 345, 0.25);
-        autoDriver.waitMilliseconds(500);
-        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 315, 0.15);
+        //autoDriver.gyroTurn("COUNTER_CLOCKWISE", 345, 0.25);
+        //autoDriver.gyroTurn("COUNTER_CLOCKWISE", 315, 0.15);
+        autoDriver.turn_counterclockwise(317);
 
-        autoDriver.waitMilliseconds(500);
+        sleep(500);
 
-        autoDriver.driveForwardtoEncoderCountWithCorrection(7000, 1.0, 315);
+        //autoDriver.driveForwardtoEncoderCountWithCorrection(7000, 1.0, 315);
+        autoDriver.drive_forward(7000);
 
-        autoDriver.waitMilliseconds(500);
+        sleep(500);
 
-        autoDriver.gyroTurn("CLOCKWISE", 45, 0.25);
-        autoDriver.waitMilliseconds(500);
-        autoDriver.gyroTurn("CLOCKWISE", 84, 0.15);
+        //autoDriver.gyroTurn("CLOCKWISE", 45, 0.25);
+        sleep(500);
+        autoDriver.turn_clockwise(136);
 
-        autoDriver.waitMilliseconds(500);
+        sleep(500);
 
-        autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
+        //autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
+
+        autoDriver.set_power(-0.5);
+        autoDriver.drive_backward(-475);
+
 
         climberDump.dumpClimbers();
 
-        autoDriver.waitMilliseconds(2000);
+        sleep(2000);
 
         climberDump.holdClimbers();
 
