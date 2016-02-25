@@ -58,9 +58,9 @@ public class BlueAutoMode extends LinearOpMode {
 
         driveTrain = new DriveTrain.Builder()
                 .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
-                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront")))
+                .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront"), this))
                 .addRightMotor(hardwareMap.dcMotor.get("rightback"))
-                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront")))
+                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront"), this))
                 .build();
         autoDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
@@ -84,28 +84,29 @@ public class BlueAutoMode extends LinearOpMode {
 
         autoDriver.waitMilliseconds(500);
 
-        autoDriver.driveForwardtoEncoderCountWithCorrection(1600, 1.0, 0);
+        //autoDriver.driveForwardtoEncoderCountWithCorrection(1600, 1.0, 0);
+
 
         autoDriver.waitMilliseconds(500);
 
         //The double turn increases accuracy. 
-        autoDriver.gyroTurn("CLOCKWISE", 15, 0.25);
+        autoDriver.turn_clockwise(15);
         autoDriver.waitMilliseconds(500);
-        autoDriver.gyroTurn("CLOCKWISE", 45, 0.15);
-
-        autoDriver.waitMilliseconds(500);
-
-        autoDriver.driveForwardtoEncoderCountWithCorrection(7000, 1.0, 315);
+        autoDriver.turn_clockwise(45);
 
         autoDriver.waitMilliseconds(500);
 
-        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 220, 0.25);
-        autoDriver.waitMilliseconds(500);
-        autoDriver.gyroTurn("COUNTER_CLOCKWISE", 264, 0.15);
+        autoDriver.drive_forward(7000);
 
         autoDriver.waitMilliseconds(500);
 
-        autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
+        autoDriver.turn_counterclockwise(220);
+        autoDriver.waitMilliseconds(500);
+        autoDriver.turn_counterclockwise(264);
+
+        autoDriver.waitMilliseconds(500);
+
+        autoDriver.drive_backward(-250);
 
         climberDump.dumpClimbers();
 
