@@ -82,35 +82,38 @@ public class BlueAutoMode extends LinearOpMode {
             sleep(1);
         }
 
-        autoDriver.waitMilliseconds(500);
+        sleep(500);
 
         //autoDriver.driveForwardtoEncoderCountWithCorrection(1600, 1.0, 0);
+        autoDriver.drive_forward(1600);
 
+        sleep(500);
 
-        autoDriver.waitMilliseconds(500);
+        //The double turn increases accuracy.
+        //autoDriver.gyroTurn("COUNTER_CLOCKWISE", 345, 0.25);
+        //autoDriver.gyroTurn("COUNTER_CLOCKWISE", 315, 0.15);
+        autoDriver.turn_clockwise(19);
 
-        //The double turn increases accuracy. 
-        autoDriver.turn_clockwise(15);
-        autoDriver.waitMilliseconds(500);
-        autoDriver.turn_clockwise(45);
+        sleep(500);
 
-        autoDriver.waitMilliseconds(500);
-
+        //autoDriver.driveForwardtoEncoderCountWithCorrection(7000, 1.0, 315);
         autoDriver.drive_forward(7000);
 
-        autoDriver.waitMilliseconds(500);
+        //autoDriver.gyroTurn("CLOCKWISE", 45, 0.25);
+        sleep(500);
+        autoDriver.turn_counterclockwise(135);
 
-        autoDriver.turn_counterclockwise(220);
-        autoDriver.waitMilliseconds(500);
-        autoDriver.turn_counterclockwise(264);
+        sleep(500);
 
-        autoDriver.waitMilliseconds(500);
+        //autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
 
-        autoDriver.drive_backward(-250);
+        autoDriver.set_power(-0.5);
+        autoDriver.drive_backward(-490);
+
 
         climberDump.dumpClimbers();
 
-        autoDriver.waitMilliseconds(2000);
+        sleep(2000);
 
         climberDump.holdClimbers();
 
