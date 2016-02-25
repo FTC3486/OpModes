@@ -25,6 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.FTC3486.OpModes;
 
+import com.FTC3486.FTCRC_Extensions.AutoDriver;
 import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
@@ -51,7 +52,7 @@ public class BlueAutoMode extends LinearOpMode {
     GyroSensor gyroSensor;
     ClimberDump climberDump;
     DriveTrain driveTrain;
-    GyroscopeAutoDriver autoDriver;
+    AutoDriver autoDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {

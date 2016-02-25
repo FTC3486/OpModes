@@ -52,7 +52,7 @@ public class RedAutoMode extends LinearOpMode {
     GyroSensor gyroSensor;
     ClimberDump climberDump;
     DriveTrain driveTrain;
-    GyroscopeAutoDriver autoDriver;
+    AutoDriver autoDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
