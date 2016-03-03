@@ -1,7 +1,6 @@
 package com.FTC3486.OpModes;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.TeleopDriver;
-import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.FTCRC_Extensions.GamepadWrapper;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
