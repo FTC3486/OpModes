@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package com.FTC3486.OpModes;
 
 import com.FTC3486.FTCRC_Extensions.AutoDriver;
+import com.FTC3486.FTCRC_Extensions.EncoderAutoDriver;
 import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
@@ -52,7 +53,8 @@ public class BlueAutoMode extends LinearOpMode {
     GyroSensor gyroSensor;
     ClimberDump climberDump;
     DriveTrain driveTrain;
-    AutoDriver autoDriver;
+    AutoDriver linearDriver;
+    AutoDriver angularDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -63,7 +65,8 @@ public class BlueAutoMode extends LinearOpMode {
                 .addRightMotor(hardwareMap.dcMotor.get("rightback"))
                 .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront"), this))
                 .build();
-        autoDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
+        linearDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
+        angularDriver = new EncoderAutoDriver(this, driveTrain);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
@@ -83,39 +86,17 @@ public class BlueAutoMode extends LinearOpMode {
             sleep(1);
         }
 
+        linearDriver.drive_forward(7400);
         sleep(500);
 
-        //autoDriver.driveForwardtoEncoderCountWithCorrection(1600, 1.0, 0);
-        autoDriver.drive_forward(1600);
-
+        angularDriver.turn_counterclockwise(1400);
         sleep(500);
 
-        //The double turn increases accuracy.
-        //autoDriver.gyroTurn("COUNTER_CLOCKWISE", 345, 0.25);
-        //autoDriver.gyroTurn("COUNTER_CLOCKWISE", 315, 0.15);
-        autoDriver.turn_clockwise(19);
-
-        sleep(500);
-
-        //autoDriver.driveForwardtoEncoderCountWithCorrection(7000, 1.0, 315);
-        autoDriver.drive_forward(7000);
-
-        //autoDriver.gyroTurn("CLOCKWISE", 45, 0.25);
-        sleep(500);
-        autoDriver.turn_counterclockwise(135);
-
-        sleep(500);
-
-        //autoDriver.driveBackwardtoEncoderCount(-250, -0.25);
-
-        autoDriver.set_power(0.5);
-        autoDriver.drive_backward(-490);
-
+        linearDriver.set_power(0.5);
+        linearDriver.drive_backward(-3000);
 
         climberDump.dumpClimbers();
-
         sleep(2000);
-
         climberDump.holdClimbers();
 
     }
