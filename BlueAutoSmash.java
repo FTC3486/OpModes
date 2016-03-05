@@ -27,9 +27,9 @@ package com.FTC3486.OpModes;
 
 import com.FTC3486.FTCRC_Extensions.AutoDriver;
 import com.FTC3486.FTCRC_Extensions.EncoderAutoDriver;
+import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
-import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
 import com.FTC3486.Subsystems.Pickup;
@@ -43,7 +43,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 /**
  * Created by Matthew on 11/25/2015.
  */
-public class RedAutoSmash extends LinearOpMode {
+public class BlueAutoSmash extends LinearOpMode {
     TapeMeasure tapeMeasure;
     Winch winch;
     ParkingBrake parkingBrake;
@@ -86,14 +86,14 @@ public class RedAutoSmash extends LinearOpMode {
             sleep(1);
         }
 
-        linearDriver.drive_forward(9650);
+        linearDriver.drive_forward(7400);
         sleep(500);
 
-        angularDriver.turn_clockwise(1400);
+        angularDriver.turn_counterclockwise(1400);
         sleep(500);
 
         linearDriver.set_power(0.5);
-        linearDriver.drive_backward(-500);
+        linearDriver.drive_backward(-3000);
 
         climberDump.dumpClimbers();
         sleep(2000);
@@ -101,10 +101,11 @@ public class RedAutoSmash extends LinearOpMode {
 
         sleep(500);
 
-        angularDriver.turn_counterclockwise(45);
+        angularDriver.turn_clockwise(45);
         sleep(500);
 
         linearDriver.set_power(1.0);
         linearDriver.drive_forward(6000);
+
     }
 }
