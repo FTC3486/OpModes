@@ -1,5 +1,6 @@
 package com.FTC3486.OpModes;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
+import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.FTCRC_Extensions.TeleopDriver;
 import com.FTC3486.FTCRC_Extensions.GamepadWrapper;
 import com.FTC3486.Subsystems.ClimberDump;
@@ -10,6 +11,7 @@ import com.FTC3486.Subsystems.TapeMeasure;
 import com.FTC3486.Subsystems.Turret;
 import com.FTC3486.Subsystems.Winch;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by Matthew on 8/11/2015.
@@ -31,6 +33,11 @@ public class TeleOp2016 extends OpMode{
     public void init() {
         joy1 = new GamepadWrapper();
         joy2 = new GamepadWrapper();
+
+        DcMotor rightback = hardwareMap.dcMotor.get("rightback");
+        rightback.setDirection(DcMotor.Direction.REVERSE);
+        DcMotor rightfront = hardwareMap.dcMotor.get("rightfront");
+        rightfront.setDirection(DcMotor.Direction.REVERSE);
 
         driveTrain = new DriveTrain.Builder()
                 .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
@@ -56,7 +63,6 @@ public class TeleOp2016 extends OpMode{
         joy2.update(gamepad2);
 
         // Gamepad 1
-        // TODO:Remove reverse button; Wesley only wanted to test;
         if(joy1.toggle.x) {
             teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.BACKWARD);
         } else {
@@ -89,17 +95,18 @@ public class TeleOp2016 extends OpMode{
         }
 
         // Gamepad 2
-        if(gamepad2.dpad_right) {
+        if(gamepad2.right_stick_x > 0.8) {
             tapeMeasure.extendTapeMeasure();
-        } else if(gamepad2.dpad_left) {
+            tapeMeasure.tiltToScore();
+        } else if(gamepad2.right_stick_x < -0.8) {
             tapeMeasure.retractTapeMeasure();
         } else {
             tapeMeasure.stopTapeMeasure();
         }
 
-        if(gamepad2.dpad_up) {
+        if(gamepad2.right_stick_y < -0.8) {
             tapeMeasure.tiltUp();
-        } else if(gamepad2.dpad_down) {
+        } else if(gamepad2.right_stick_y > 0.8) {
             tapeMeasure.tiltDown();
         } else {
             tapeMeasure.stopTilt();
@@ -117,9 +124,9 @@ public class TeleOp2016 extends OpMode{
             turret.swivelStop();
         }
 
-        if(joy2.toggle.b) {
+        if(joy2.toggle.x) {
             turret.dumperSwivelRight();
-        } else if(joy2.toggle.x) {
+        } else if(joy2.toggle.b) {
             turret.dumperSwivelLeft();
         } else {
             turret.dumperSwivelCenter();
