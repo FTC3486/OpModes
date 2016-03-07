@@ -56,6 +56,11 @@ public class TeleOp2016 extends OpMode{
         climberDump = new ClimberDump("climberDump", hardwareMap);
     }
 
+    @Override
+    public void start() {
+        tapeMeasure.tiltBack();
+        climberDump.stayVertical();
+    }
 
     @Override
     public void loop() {
@@ -98,15 +103,15 @@ public class TeleOp2016 extends OpMode{
         if(gamepad2.right_stick_x > 0.8) {
             tapeMeasure.extendTapeMeasure();
             tapeMeasure.tiltToScore();
-        } else if(gamepad2.right_stick_x < -0.8) {
+        } else if(gamepad2.dpad_right) {
             tapeMeasure.retractTapeMeasure();
         } else {
             tapeMeasure.stopTapeMeasure();
         }
 
-        if(gamepad2.right_stick_y < -0.8) {
+        if(gamepad2.dpad_up) {
             tapeMeasure.tiltUp();
-        } else if(gamepad2.right_stick_y > 0.8) {
+        } else if(gamepad2.dpad_down) {
             tapeMeasure.tiltDown();
         } else {
             tapeMeasure.stopTilt();
