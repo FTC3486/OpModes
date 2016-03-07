@@ -92,12 +92,18 @@ public class BlueAutoPark extends LinearOpMode {
         }
 
         linearDriver.drive_forward(7600);
-        angularDriver.turn_counterclockwise(1400);
+        angularDriver.turn_counterclockwise(1300);
+        pickup.collect();
         linearDriver.set_power(0.5);
-        linearDriver.drive_backward(-2800);
-
+        linearDriver.drive_backward(-3300);
+        pickup.stop();
+        linearDriver.drive_forward(100);
         climberDump.dumpClimbers();
         sleep(2000);
         climberDump.holdClimbers();
+        linearDriver.drive_forward(400);
+        linearDriver.set_power(1.0);
+        angularDriver.turn_counterclockwise(900);
+        linearDriver.drive_forward(1500);
     }
 }

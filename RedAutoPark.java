@@ -63,11 +63,12 @@ public class RedAutoPark extends LinearOpMode {
         rightback.setDirection(DcMotor.Direction.REVERSE);
         DcMotor rightfront = new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront"), this);
         rightfront.setDirection(DcMotor.Direction.REVERSE);
+
         driveTrain = new DriveTrain.Builder()
                 .addLeftMotor(hardwareMap.dcMotor.get("leftback"))
                 .addLeftMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("leftfront"), this))
-                .addRightMotor(hardwareMap.dcMotor.get("rightback"))
-                .addRightMotorWithEncoder(new ExtendedDcMotor(hardwareMap.dcMotor.get("rightfront"), this))
+                .addRightMotor(rightback)
+                .addRightMotorWithEncoder(rightfront)
                 .build();
         linearDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
         angularDriver = new EncoderAutoDriver(this, driveTrain);
@@ -90,18 +91,19 @@ public class RedAutoPark extends LinearOpMode {
             sleep(1);
         }
 
-        linearDriver.drive_forward(9650);
-        sleep(500);
-
-        angularDriver.turn_clockwise(1400);
-        sleep(500);
-
+        linearDriver.drive_forward(9800);
+        angularDriver.turn_clockwise(1300);
+        pickup.collect();
         linearDriver.set_power(0.5);
-        linearDriver.drive_backward(-500);
-
+        linearDriver.drive_backward(-1500);
+        pickup.stop();
+        linearDriver.drive_forward(100);
         climberDump.dumpClimbers();
         sleep(2000);
         climberDump.holdClimbers();
-
+        linearDriver.drive_forward(400);
+        linearDriver.set_power(1.0);
+        angularDriver.turn_clockwise(900);
+        linearDriver.drive_forward(2000);
     }
 }
