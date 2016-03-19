@@ -25,25 +25,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.FTC3486.OpModes;
 
-import com.FTC3486.FTCRC_Extensions.AutoDriver;
-import com.FTC3486.FTCRC_Extensions.EncoderAutoDriver;
-import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
-import com.FTC3486.FTCRC_Extensions.DriveTrain;
-import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.FTCRC_Extensions.Statistician;
-import com.FTC3486.Subsystems.ClimberDump;
-import com.FTC3486.Subsystems.ParkingBrake;
-import com.FTC3486.Subsystems.Pickup;
-import com.FTC3486.Subsystems.Plow;
-import com.FTC3486.Subsystems.TapeMeasure;
-import com.FTC3486.Subsystems.Turret;
-import com.FTC3486.Subsystems.Winch;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.GyroSensor;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -56,9 +40,9 @@ public class ColorSensorTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        colorSensor = hardwareMap.colorSensor.get("colorSensor");
+        colorSensor = hardwareMap.colorSensor.get("cS");
 
-        for(int i = 0; i < 60; i++) {
+        /*for(int i = 0; i < 60; i++) {
             waitOneFullHardwareCycle();
             sleep(100);
             dataList.add( (double) colorSensor.alpha());
@@ -70,7 +54,7 @@ public class ColorSensorTest extends LinearOpMode {
 
         confidenceInterval = Statistician.construct_confidence_interval_from_data_list(dataList);
         telemetry.addData("Upper Bound", confidenceInterval.upperBound);
-        telemetry.addData("Lower Bound", confidenceInterval.lowerBound);
+        telemetry.addData("Lower Bound", confidenceInterval.lowerBound);*/
 
     }
 }
