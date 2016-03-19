@@ -3,6 +3,7 @@ import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
 import com.FTC3486.FTCRC_Extensions.TeleopDriver;
 import com.FTC3486.FTCRC_Extensions.GamepadWrapper;
+import com.FTC3486.Subsystems.ChurroLock;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
 import com.FTC3486.Subsystems.Pickup;
@@ -28,6 +29,7 @@ public class TeleOp2016 extends OpMode{
     Plow plow;
     Pickup pickup;
     ClimberDump climberDump;
+    ChurroLock churroLock;
 
     @Override
     public void init() {
@@ -54,6 +56,7 @@ public class TeleOp2016 extends OpMode{
         plow = new Plow("leftPlow", "rightPlow", hardwareMap);
         pickup = new Pickup("pickup", hardwareMap);
         climberDump = new ClimberDump("climberDump", hardwareMap);
+        churroLock = new ChurroLock("churroLock", hardwareMap);
     }
 
     @Override
@@ -90,6 +93,12 @@ public class TeleOp2016 extends OpMode{
             parkingBrake.brake();
         } else {
             parkingBrake.release();
+        }
+
+        if(gamepad1.b) {
+            churroLock.lock();
+        } else {
+            churroLock.unlock();
         }
 
         if(gamepad1.dpad_down) {
