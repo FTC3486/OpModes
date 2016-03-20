@@ -95,7 +95,7 @@ public class TeleOp2016 extends OpMode{
             parkingBrake.release();
         }
 
-        if(gamepad1.b) {
+        if(joy1.toggle.b) {
             churroLock.lock();
         } else {
             churroLock.unlock();
@@ -175,6 +175,8 @@ public class TeleOp2016 extends OpMode{
         telemetry.addData("Winch ", winch);
         telemetry.addData("Plow ", plow);
         telemetry.addData("Pickup ", pickup);
-        telemetry.addData("tapeMotor ", tapeMeasure);
+        telemetry.addData("TapeMotor ", tapeMeasure);
+        telemetry.addData("ChurroLock", churroLock);
+        telemetry.addData("ClimberDump", climberDump);
     }
 }
