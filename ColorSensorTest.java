@@ -42,10 +42,10 @@ public class ColorSensorTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         colorSensor = hardwareMap.colorSensor.get("cS");
 
-        /*for(int i = 0; i < 60; i++) {
+        for(int i = 0; i < 60; i++) {
             waitOneFullHardwareCycle();
             sleep(100);
-            dataList.add( (double) colorSensor.alpha());
+            dataList.add( (double) colorSensor.argb());
             telemetry.addData("DataPoint:", dataList.get(i));
         }
 
@@ -54,7 +54,7 @@ public class ColorSensorTest extends LinearOpMode {
 
         confidenceInterval = Statistician.construct_confidence_interval_from_data_list(dataList);
         telemetry.addData("Upper Bound", confidenceInterval.upperBound);
-        telemetry.addData("Lower Bound", confidenceInterval.lowerBound);*/
+        telemetry.addData("Lower Bound", confidenceInterval.lowerBound);
 
     }
 }
