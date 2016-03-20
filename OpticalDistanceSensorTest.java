@@ -51,7 +51,9 @@ import java.util.ArrayList;
  */
 public class OpticalDistanceSensorTest extends LinearOpMode {
     OpticalDistanceSensor opticalDistanceSensor;
+
     ArrayList<Double> dataList = new ArrayList(60);
+
     Statistician.ConfidenceInterval confidenceInterval;
 
     @Override
@@ -60,7 +62,7 @@ public class OpticalDistanceSensorTest extends LinearOpMode {
 
         for(int i = 0; i < 60; i++) {
             sleep(100);
-            dataList.add(opticalDistanceSensor.getLightDetected());
+            dataList.add(opticalDistanceSensor.getLightDetected() * 1000);
             telemetry.addData("DataPoint:", dataList.get(i));
         }
 
