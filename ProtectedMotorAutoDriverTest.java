@@ -33,6 +33,7 @@ public class ProtectedMotorAutoDriverTest extends LinearOpMode {
         waitForStart();
 
         linearDriver.set_power(1.0);
-        linearDriver.drive_forward(2000);
+        linearDriver.drive_forward(20000);
     }
 }
+
