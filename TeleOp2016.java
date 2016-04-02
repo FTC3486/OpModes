@@ -83,7 +83,7 @@ public class TeleOp2016 extends OpMode{
             winch.out();
         } else winch.stop();
 
-        if(joy1.toggle.left_bumper){
+        if(joy1.toggle.b){
             plow.goUp();
         } else {
             plow.goDown();
@@ -95,7 +95,7 @@ public class TeleOp2016 extends OpMode{
             parkingBrake.release();
         }
 
-        if(joy1.toggle.b) {
+        if(joy1.toggle.left_bumper) {
             churroLock.lock();
         } else {
             churroLock.unlock();
