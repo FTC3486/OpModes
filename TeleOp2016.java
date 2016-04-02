@@ -97,8 +97,10 @@ public class TeleOp2016 extends OpMode{
 
         if(joy1.toggle.left_bumper) {
             churroLock.lock();
+            climberDump.dumpClimbers();
         } else {
             churroLock.unlock();
+            climberDump.stayVertical();
         }
 
         if(gamepad1.dpad_down) {
