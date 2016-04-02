@@ -1,4 +1,5 @@
 package com.FTC3486.OpModes;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -22,7 +23,5 @@ public class ContinuousServoTest extends OpMode {
         } else {
             continuousServo.setPosition(0.5);
         }
-
     }
-
 }
