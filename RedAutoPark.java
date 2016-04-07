@@ -1,6 +1,7 @@
 package com.FTC3486.OpModes;
 
 import com.FTC3486.FTCRC_Extensions.AutoDriver;
+import com.FTC3486.FTCRC_Extensions.ColorAutoDriver;
 import com.FTC3486.FTCRC_Extensions.EncoderAutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
@@ -31,6 +32,7 @@ public class RedAutoPark extends LinearOpMode {
     DriveTrain driveTrain;
     AutoDriver linearDriver;
     AutoDriver angularDriver;
+    AutoDriver sensorDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -47,6 +49,7 @@ public class RedAutoPark extends LinearOpMode {
                 .build();
         linearDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
         angularDriver = new EncoderAutoDriver(this, driveTrain);
+        sensorDriver = new ColorAutoDriver(this, driveTrain, "cS", hardwareMap);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
@@ -66,19 +69,23 @@ public class RedAutoPark extends LinearOpMode {
             sleep(1);
         }
 
-        linearDriver.drive_forward(9800);
-        angularDriver.turn_clockwise(1300);
-        pickup.collect();
-        linearDriver.set_power(0.5);
-        linearDriver.drive_backward(-1500);
-        pickup.stop();
-        linearDriver.drive_forward(100);
+        linearDriver.drive_forward(11000);
+        angularDriver.turn_counterclockwise(1300);
+        sensorDriver.set_power(0.25);
+        sensorDriver.drive_forward(0);
+        sensorDriver.drive_forward(0);
+
+        linearDriver.set_power(1.0);
+        linearDriver.drive_backward(-900);
+        angularDriver.turn_counterclockwise(890);
+        linearDriver.drive_backward(-725);
         climberDump.dumpClimbers();
         sleep(2000);
         climberDump.holdClimbers();
-        linearDriver.drive_forward(400);
-        linearDriver.set_power(1.0);
-        angularDriver.turn_clockwise(900);
-        linearDriver.drive_forward(2000);
+        sleep(1000);
+
+        linearDriver.drive_forward(900);
+        angularDriver.turn_clockwise(890);
+        linearDriver.drive_forward(1900);
     }
 }
