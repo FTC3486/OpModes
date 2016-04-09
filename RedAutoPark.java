@@ -69,13 +69,18 @@ public class RedAutoPark extends LinearOpMode {
             sleep(1);
         }
 
+        linearDriver.set_wait_time_between_movements(750);
+        angularDriver.set_wait_time_between_movements(750);
+        sensorDriver.set_wait_time_between_movements(750);
+
+        linearDriver.set_power(0.75);
         linearDriver.drive_forward(11000);
         angularDriver.turn_counterclockwise(1300);
         sensorDriver.set_power(0.25);
         sensorDriver.drive_forward(0);
         sensorDriver.drive_forward(0);
 
-        linearDriver.set_power(1.0);
+        linearDriver.set_power(0.5);
         linearDriver.drive_backward(-900);
         angularDriver.turn_counterclockwise(890);
         linearDriver.drive_backward(-725);
