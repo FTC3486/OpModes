@@ -30,9 +30,9 @@ public class RedAutoPark extends LinearOpMode {
     GyroSensor gyroSensor;
     ClimberDump climberDump;
     DriveTrain driveTrain;
-    AutoDriver linearDriver;
-    AutoDriver angularDriver;
-    AutoDriver sensorDriver;
+    AutoDriver gyroDriver;
+    AutoDriver encoderDriver;
+    AutoDriver colorDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -47,9 +47,9 @@ public class RedAutoPark extends LinearOpMode {
                 .addRightMotor(rightback)
                 .addRightMotorWithEncoder(rightfront)
                 .build();
-        linearDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
-        angularDriver = new EncoderAutoDriver(this, driveTrain);
-        sensorDriver = new ColorAutoDriver(this, driveTrain, "cS", hardwareMap);
+        gyroDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
+        encoderDriver = new EncoderAutoDriver(this, driveTrain);
+        colorDriver = new ColorAutoDriver(this, driveTrain, "cS", hardwareMap);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
@@ -69,28 +69,29 @@ public class RedAutoPark extends LinearOpMode {
             sleep(1);
         }
 
-        linearDriver.set_wait_time_between_movements(750);
-        angularDriver.set_wait_time_between_movements(750);
-        sensorDriver.set_wait_time_between_movements(750);
+        gyroDriver.set_wait_time_between_movements(750);
+        encoderDriver.set_wait_time_between_movements(750);
+        colorDriver.set_wait_time_between_movements(750);
 
-        linearDriver.set_power(0.75);
-        linearDriver.drive_forward(11000);
-        angularDriver.turn_counterclockwise(1300);
-        sensorDriver.set_power(0.25);
-        sensorDriver.drive_forward(0);
-        sensorDriver.drive_forward(0);
+        gyroDriver.set_power(0.75);
+        gyroDriver.drive_forward(11000);
+        encoderDriver.turn_counterclockwise(1300);
+        colorDriver.set_power(0.25);
+        colorDriver.drive_forward(0);
+        colorDriver.drive_forward(0);
 
-        linearDriver.set_power(0.5);
-        linearDriver.drive_backward(-900);
-        angularDriver.turn_counterclockwise(890);
-        linearDriver.drive_backward(-725);
+        gyroDriver.set_power(0.5);
+        gyroDriver.drive_backward(-900);
+        encoderDriver.turn_counterclockwise(890);
+        encoderDriver.set_power(0.5);
+        encoderDriver.drive_backward(-725);
         climberDump.dumpClimbers();
         sleep(2000);
         climberDump.holdClimbers();
         sleep(1000);
 
-        linearDriver.drive_forward(900);
-        angularDriver.turn_clockwise(890);
-        linearDriver.drive_forward(1900);
+        gyroDriver.drive_forward(900);
+        encoderDriver.turn_clockwise(890);
+        gyroDriver.drive_forward(1900);
     }
 }
