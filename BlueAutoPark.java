@@ -1,10 +1,11 @@
 package com.FTC3486.OpModes;
 
 import com.FTC3486.FTCRC_Extensions.AutoDriver;
+import com.FTC3486.FTCRC_Extensions.ColorAutoDriver;
 import com.FTC3486.FTCRC_Extensions.EncoderAutoDriver;
-import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.FTCRC_Extensions.DriveTrain;
 import com.FTC3486.FTCRC_Extensions.ExtendedDcMotor;
+import com.FTC3486.FTCRC_Extensions.GyroscopeAutoDriver;
 import com.FTC3486.Subsystems.ClimberDump;
 import com.FTC3486.Subsystems.ParkingBrake;
 import com.FTC3486.Subsystems.Pickup;
@@ -29,8 +30,9 @@ public class BlueAutoPark extends LinearOpMode {
     GyroSensor gyroSensor;
     ClimberDump climberDump;
     DriveTrain driveTrain;
-    AutoDriver linearDriver;
-    AutoDriver angularDriver;
+    AutoDriver gyroDriver;
+    AutoDriver encoderDriver;
+    AutoDriver colorDriver;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -45,8 +47,9 @@ public class BlueAutoPark extends LinearOpMode {
                 .addRightMotor(rightback)
                 .addRightMotorWithEncoder(rightfront)
                 .build();
-        linearDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
-        angularDriver = new EncoderAutoDriver(this, driveTrain);
+        gyroDriver = new GyroscopeAutoDriver(this, driveTrain, "gyroSensor", hardwareMap);
+        encoderDriver = new EncoderAutoDriver(this, driveTrain);
+        colorDriver = new ColorAutoDriver(this, driveTrain, "cS", hardwareMap);
         tapeMeasure = new TapeMeasure("tapeMotor", "tapeTilt", hardwareMap);
         winch = new Winch("winchMotor", hardwareMap);
         parkingBrake = new ParkingBrake("parkingBrake", hardwareMap);
@@ -66,19 +69,29 @@ public class BlueAutoPark extends LinearOpMode {
             sleep(1);
         }
 
-        linearDriver.drive_forward(7600);
-        angularDriver.turn_counterclockwise(1300);
-        pickup.collect();
-        linearDriver.set_power(0.5);
-        linearDriver.drive_backward(-3300);
-        pickup.stop();
-        linearDriver.drive_forward(100);
+        gyroDriver.set_wait_time_between_movements(750);
+        encoderDriver.set_wait_time_between_movements(750);
+        colorDriver.set_wait_time_between_movements(750);
+
+        gyroDriver.set_power(0.75);
+        gyroDriver.drive_forward(11700);
+        encoderDriver.turn_clockwise(1275);
+
+        colorDriver.set_power(0.25);
+        colorDriver.drive_forward(0);
+        colorDriver.drive_forward(0);
+
+        encoderDriver.turn_clockwise(850);
+        encoderDriver.set_power(0.5);
+        encoderDriver.drive_backward(-725);
+
         climberDump.dumpClimbers();
         sleep(2000);
         climberDump.holdClimbers();
-        linearDriver.drive_forward(400);
-        linearDriver.set_power(1.0);
-        angularDriver.turn_counterclockwise(900);
-        linearDriver.drive_forward(1500);
+        sleep(1000);
+
+        gyroDriver.drive_forward(300);
+        encoderDriver.turn_counterclockwise(890);
+        gyroDriver.drive_forward(1000);
     }
 }
