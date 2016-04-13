@@ -142,7 +142,7 @@ public class TeleOp2016 extends OpMode{
 
         if(joy2.toggle.x) {
             turret.dumperSwivelRight();
-        } else if(joy2.toggle.b) {
+        } else if(joy2.toggle.b && !joy2.toggle.start) {
             turret.dumperSwivelLeft();
         } else {
             turret.dumperSwivelCenter();
@@ -166,7 +166,7 @@ public class TeleOp2016 extends OpMode{
 
         if(joy2.toggle.left_bumper) {
            pickup.collect();
-        } else if(joy2.toggle.start) {
+        } else if(joy2.toggle.back) {
             pickup.reverse();
         } else {
             pickup.stop();
