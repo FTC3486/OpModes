@@ -69,9 +69,9 @@ public class RedAutoPark extends LinearOpMode {
             sleep(1);
         }
 
-        gyroDriver.set_wait_time_between_movements(750);
-        encoderDriver.set_wait_time_between_movements(750);
-        colorDriver.set_wait_time_between_movements(750);
+        gyroDriver.set_wait_time_between_movements(250);
+        encoderDriver.set_wait_time_between_movements(250);
+        colorDriver.set_wait_time_between_movements(250);
 
         gyroDriver.set_power(0.75);
         gyroDriver.drive_forward(11000);
