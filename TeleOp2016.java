@@ -142,7 +142,7 @@ public class TeleOp2016 extends OpMode{
 
         if(joy2.toggle.x) {
             turret.dumperSwivelRight();
-        } else if(joy2.toggle.b && !joy2.toggle.start) {
+        } else if(joy2.toggle.b && !gamepad2.start) {
             turret.dumperSwivelLeft();
         } else {
             turret.dumperSwivelCenter();
