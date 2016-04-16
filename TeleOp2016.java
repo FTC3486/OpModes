@@ -111,7 +111,7 @@ public class TeleOp2016 extends OpMode{
         }
 
         // Gamepad 2
-        if(gamepad2.right_stick_x > 0.8) {
+        if(gamepad2.right_bumper) {
             tapeMeasure.extendTapeMeasure();
             tapeMeasure.tiltToScore();
         } else if(gamepad2.dpad_right) {
@@ -156,13 +156,7 @@ public class TeleOp2016 extends OpMode{
             turret.extenderStop();
         }
 
-        if(gamepad2.right_bumper) {
-            turret.wholeDumpDebris();
-        } else if(gamepad2.a) {
-            turret.halfDumpDebris();
-        } else {
-            turret.holdDebris();
-        }
+        turret.dumpBlocks(gamepad2.right_stick_y);
 
         if(joy2.toggle.left_bumper) {
            pickup.collect();
