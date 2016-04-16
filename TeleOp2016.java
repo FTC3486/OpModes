@@ -156,7 +156,11 @@ public class TeleOp2016 extends OpMode{
             turret.extenderStop();
         }
 
-        turret.dumpBlocks(gamepad2.right_stick_y);
+        if(gamepad2.right_stick_y < -0.1) {
+            turret.dumpBlocks(gamepad2.right_stick_y);
+        } else if(gamepad2.a) {
+            turret.halfDumpDebris();
+        }
 
         if(joy2.toggle.left_bumper) {
            pickup.collect();
