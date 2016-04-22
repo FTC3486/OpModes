@@ -83,8 +83,8 @@ public class RedAutoPark extends LinearOpMode {
         gyroDriver.set_power(0.5);
         gyroDriver.drive_backward(-900);
         encoderDriver.turn_counterclockwise(890);
-        encoderDriver.set_power(0.5);
-        encoderDriver.drive_backward(-725);
+        encoderDriver.set_power(0.2);
+        encoderDriver.drive_backward(-750);
         climberDump.dumpClimbers();
         sleep(2000);
         climberDump.holdClimbers();
