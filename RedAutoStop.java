@@ -69,24 +69,22 @@ public class RedAutoStop extends LinearOpMode {
             sleep(1);
         }
 
-        gyroDriver.set_wait_time_between_movements(750);
-        encoderDriver.set_wait_time_between_movements(750);
-        colorDriver.set_wait_time_between_movements(1000);
-
+        gyroDriver.set_wait_time_between_movements(250);
+        encoderDriver.set_wait_time_between_movements(250);
+        colorDriver.set_wait_time_between_movements(250);
         gyroDriver.set_power(0.75);
         gyroDriver.drive_forward(11000);
         encoderDriver.turn_counterclockwise(1300);
         colorDriver.set_power(0.25);
         colorDriver.drive_forward(0);
         colorDriver.drive_forward(0);
-
-        gyroDriver.set_power(0.5);
-        gyroDriver.drive_backward(-900);
-
-        encoderDriver.turn_counterclockwise(890);
+        colorDriver.drive_backward(0);
+        encoderDriver.set_power(0.25);
+        encoderDriver.drive_backward(-100);
         encoderDriver.set_power(0.5);
-        encoderDriver.drive_backward(-725);
-
+        encoderDriver.turn_counterclockwise(890);
+        encoderDriver.set_power(0.2);
+        encoderDriver.drive_backward(-750);
         climberDump.dumpClimbers();
         sleep(2000);
         climberDump.holdClimbers();
