@@ -72,19 +72,15 @@ public class BlueAutoStop extends LinearOpMode {
         gyroDriver.set_wait_time_between_movements(750);
         encoderDriver.set_wait_time_between_movements(750);
         colorDriver.set_wait_time_between_movements(750);
-
         gyroDriver.set_power(0.75);
         gyroDriver.drive_forward(11700);
-        encoderDriver.turn_clockwise(1275);
-
+        encoderDriver.turn_clockwise(1300);
         colorDriver.set_power(0.25);
         colorDriver.drive_forward(0);
         colorDriver.drive_forward(0);
-
-        encoderDriver.turn_clockwise(850);
-        encoderDriver.set_power(0.5);
-        encoderDriver.drive_backward(-725);
-
+        encoderDriver.turn_clockwise(875);
+        encoderDriver.set_power(0.25);
+        encoderDriver.drive_backward(-125);
         climberDump.dumpClimbers();
         sleep(2000);
         climberDump.holdClimbers();
