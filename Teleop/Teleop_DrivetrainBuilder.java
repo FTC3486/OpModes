@@ -3,9 +3,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.FTCRC_Extensions.DriveTrain;
-import org.firstinspires.ftc.teamcode.FTCRC_Extensions.GamepadWrapper;
-import org.firstinspires.ftc.teamcode.FTCRC_Extensions.TeleopDriver;
+import org.firstinspires.ftc.teamcode.RobotCoreExtensions.Drivetrain;
+import org.firstinspires.ftc.teamcode.RobotCoreExtensions.GamepadWrapper;
+import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TeleopDriver;
 import org.firstinspires.ftc.teamcode.Subsystems.BaconActivator;
 import org.firstinspires.ftc.teamcode.Subsystems.CapballHolder;
 import org.firstinspires.ftc.teamcode.Subsystems.Column;
@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.TuskGate;
 public class Teleop_DrivetrainBuilder extends OpMode{
     GamepadWrapper joy1;
     GamepadWrapper joy2;
-    DriveTrain driveTrain;
+    Drivetrain drivetrain;
     ParticleAccelerator accelerator;
     Pickup pickup;
     TroughGate troughGate;
@@ -51,13 +51,13 @@ public class Teleop_DrivetrainBuilder extends OpMode{
         Left2.setDirection(DcMotor.Direction.REVERSE);
         Right1.setDirection(DcMotor.Direction.FORWARD);
         Right2.setDirection(DcMotor.Direction.FORWARD);
-        driveTrain = new DriveTrain.Builder()
+        drivetrain = new Drivetrain.Builder()
                 .addLeftMotor(Left1)
                 .addLeftMotorWithEncoder(Left2)
                 .addRightMotor(Right1)
                 .addRightMotorWithEncoder(Right2)
                 .build();
-        teleopDriver = new TeleopDriver(this, driveTrain);
+        teleopDriver = new TeleopDriver(this, drivetrain);
         pickup = new Pickup("Pickup", hardwareMap);
         troughGate = new TroughGate("Trough Gate", hardwareMap);
         accelerator = new ParticleAccelerator("Accelerator 1", hardwareMap);

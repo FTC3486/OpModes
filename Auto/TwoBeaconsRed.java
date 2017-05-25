@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Robot;
+import org.firstinspires.ftc.teamcode.RobotCoreExtensions.Robot;
+
 
 @Autonomous(name = "Two Beacons Red", group = "RedAutonomus")
 public class TwoBeaconsRed extends LinearOpMode {

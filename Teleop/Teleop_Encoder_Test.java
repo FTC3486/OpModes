@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Teleop_Encoder_Test extends OpMode{
 /*    GamepadWrapper joy1;
     GamepadWrapper joy2;
-    DriveTrain driveTrain;
+    Drivetrain drivetrain;
     ParticleAccelerator accelerator;
     Pickup pickup;
     TroughGate troughGate;
@@ -40,13 +40,13 @@ public class Teleop_Encoder_Test extends OpMode{
         Left2.setDirection(DcMotor.Direction.REVERSE);
         Right1.setDirection(DcMotor.Direction.FORWARD);
         Right2.setDirection(DcMotor.Direction.FORWARD);
-  /*      driveTrain = new DriveTrain.Builder()
+  /*      drivetrain = new Drivetrain.Builder()
                 .addLeftMotorWithEncoder(Left1)
                 .addLeftMotorWithEncoder(Left2)
                 .addRightMotorWithEncoder(Right1)
                 .addRightMotorWithEncoder(Right2)
                 .build();
-        teleopDriver = new TeleopDriver(this, driveTrain);
+        teleopDriver = new TeleopDriver(this, drivetrain);
         pickup = new Pickup("Pickup", hardwareMap);
         troughGate = new TroughGate("Trough Gate", hardwareMap);
         accelerator = new ParticleAccelerator("Accelerator 1", hardwareMap);
@@ -83,7 +83,7 @@ public class Teleop_Encoder_Test extends OpMode{
             Left2.setPower(0.5);
             Right1.setPower(0.5);
             Right2.setPower(0.5);
-            //driveTrain.setPowers(0.5, 0.5);
+            //drivetrain.setPowers(0.5, 0.5);
         }else if(gamepad2.a){
             Left1.setPower(-0.5);
             Left2.setPower(-0.5);
@@ -94,13 +94,13 @@ public class Teleop_Encoder_Test extends OpMode{
             Left2.setPower(0);
             Right1.setPower(0);
             Right2.setPower(0);
-            //driveTrain.haltDrive();
+            //drivetrain.haltDrive();
         }else{
             Left1.setPower(0);
             Left2.setPower(0);
             Right1.setPower(0);
             Right2.setPower(0);
-            //driveTrain.haltDrive();
+            //drivetrain.haltDrive();
         }
         if(gamepad1.b){
             Left1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -111,7 +111,7 @@ public class Teleop_Encoder_Test extends OpMode{
             Right1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             Right2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             Right2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //driveTrain.resetMotorEncoders();
+            //drivetrain.resetMotorEncoders();
         }
 
 
