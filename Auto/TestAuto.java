@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Created by Matthew on 7/1/2017.
  */
 
-@Autonomous(name = "Range Sensor Test", group = "TestAutonomous")
-public class RangeSensorTest extends LinearOpMode {
+@Autonomous(name = "Test Auto", group = "TestAutonomous")
+public class TestAuto extends LinearOpMode {
     Robot mammut = new Robot(this);
 
     @Override
@@ -19,8 +19,10 @@ public class RangeSensorTest extends LinearOpMode {
 
         while(opModeIsActive())
         {
-            telemetry.addData("Left Range:", mammut.hw.leftRangeSensor.getUltrasonicRange());
-            telemetry.addData("Right Range:", mammut.hw.rightRangeSensor.getUltrasonicRange());
+            telemetry.addData("IMU Accelerometer:", mammut.hw.adafruitIMU.getAcceleration());
+            telemetry.addData("IMU Gyro Reading:", mammut.hw.adafruitIMU.getAngularOrientation());
+            telemetry.addData("IMU Gravity:", mammut.hw.adafruitIMU.getGravity());
+            telemetry.addData("IMU Magnetic Field Strength:", mammut.hw.adafruitIMU.getMagneticFieldStrength());
             telemetry.update();
         }
     }
