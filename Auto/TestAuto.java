@@ -17,13 +17,36 @@ public class TestAuto extends LinearOpMode {
         mammut.init();
         waitForStart();
 
-        while(opModeIsActive())
+        float initialGyroReading = mammut.hw.adafruitIMU.getAngularOrientation().firstAngle;
+        mammut.hw.drivetrain.setPowers(-0.2, 0.2);
+
+        int loopCounter = 0;
+        while(mammut.hw.adafruitIMU.getAngularOrientation().firstAngle - initialGyroReading < 90)
         {
-            telemetry.addData("IMU Accelerometer:", mammut.hw.adafruitIMU.getAcceleration());
-            telemetry.addData("IMU Gyro Reading:", mammut.hw.adafruitIMU.getAngularOrientation());
-            telemetry.addData("IMU Gravity:", mammut.hw.adafruitIMU.getGravity());
-            telemetry.addData("IMU Magnetic Field Strength:", mammut.hw.adafruitIMU.getMagneticFieldStrength());
+            loopCounter++;
+            telemetry.addData("Gyro Reading", mammut.hw.adafruitIMU.getAngularOrientation().firstAngle - initialGyroReading);
+            telemetry.addData("Counter", loopCounter);
             telemetry.update();
         }
+        mammut.hw.drivetrain.haltDrive();
+
+        telemetry.addData("Initial Reading", initialGyroReading);
+        telemetry.addData("Final Reading", mammut.hw.adafruitIMU.getAngularOrientation().firstAngle);
+        telemetry.addData("Difference", initialGyroReading - mammut.hw.adafruitIMU.getAngularOrientation().firstAngle);
+        telemetry.update();
+        sleep(5000);
+
+        float turnAngle = mammut.hw.adafruitIMU.getAngularOrientation().firstAngle - initialGyroReading;
+        float correctionAngle = turnAngle - 90;
+        initialGyroReading = mammut.hw.adafruitIMU.getAngularOrientation().firstAngle;
+        mammut.hw.drivetrain.setPowers(0.2, -0.2);
+        while(initialGyroReading - mammut.hw.adafruitIMU.getAngularOrientation().firstAngle < correctionAngle);
+        mammut.hw.drivetrain.haltDrive();
+
+        telemetry.addData("Initial Reading", initialGyroReading);
+        telemetry.addData("Final Reading", mammut.hw.adafruitIMU.getAngularOrientation().firstAngle);
+        telemetry.addData("Difference", initialGyroReading - mammut.hw.adafruitIMU.getAngularOrientation().firstAngle);
+        telemetry.update();
+        sleep(15000);
     }
 }
