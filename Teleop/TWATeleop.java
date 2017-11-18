@@ -51,8 +51,9 @@ public class TWATeleop extends OpMode
     {
         joy1.update(gamepad1);
 
-        //Swap front and back of the robot, and control the drive train
+        //Toggle Half Speed on the drivetrain
         if (joy1.toggle.right_stick_button){
+            //Swap front and back of the robot, and control the drive train at half speed
             if(joy1.toggle.left_stick_button)
             {
                 teleopDriver.half_speed_tank_drive(gamepad1, TeleopDriver.Direction.BACKWARD);
@@ -62,6 +63,7 @@ public class TWATeleop extends OpMode
                 teleopDriver.half_speed_tank_drive(gamepad1, TeleopDriver.Direction.FORWARD);
             }
         }else {
+            //Swap front and back of the robot, and control the drive train
             if (joy1.toggle.left_stick_button) {
                 teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.BACKWARD);
             } else {
@@ -70,7 +72,7 @@ public class TWATeleop extends OpMode
         }
         //Reset to position 1
         if(gamepad1.dpad_down){
-            // twaRobot.hw.spinner.Reset();
+             twaRobot.hw.spinner.Reset();
         }
         //Spin Glyph grabber and Swap Glyph Grabber buttons so button orintation stays the same
         else if(joy1.toggle.y){
@@ -127,36 +129,43 @@ public class TWATeleop extends OpMode
             twaRobot.hw.glyphLift.retract()
             ;
         } else {
-            //Stop all lift motion while nothing is pressed
+            //Stop all Glyph Lift motion while nothing is pressed
             twaRobot.hw.glyphLift.stop();
         }
 
-
-        if (gamepad1.dpad_down){
+        //Runs Relic Lift down while button is head
+        if (gamepad2.dpad_down){
             twaRobot.hw.relicLift.retract();
-        } else if(gamepad1.dpad_up){
+        }//Runs Relic Lift up while button is held
+        else if(gamepad2.dpad_up){
             twaRobot.hw.relicLift.lift();
-        } else {
+        }//Stop all Relic Lift motion while nothing is pressed
+        else {
             twaRobot.hw.relicLift.stop();
         }
-
-        if(gamepad1.dpad_left){
-            twaRobot.hw.relicArm.retract();
-        } else if(gamepad1.dpad_right){
+        //Extends Relic Arm while button is held
+        if(gamepad2.dpad_left){
             twaRobot.hw.relicArm.extend();
-        } else {
+        }//Retracts Relic Arm while button is held
+        else if(gamepad2.dpad_right){
+            twaRobot.hw.relicArm.retract();
+        }//Stop all Relic Arm motion while nothing is pressed
+        else {
             twaRobot.hw.relicArm.stop();
         }
-
-        if (gamepad1.a){
+        //Open Relic Claw
+        if (gamepad2.a){
             twaRobot.hw.relicClaw.releaseRelic();
-        } else if(gamepad1.b){
+        }//Close Relic Claw
+        else if(gamepad2.b){
             twaRobot.hw.relicClaw.grabRelic();
+            //twaRobot.hw.relicClaw.closeClaw();
         }
-
-        if (gamepad1.x){
+        //Set Relic CLaw Pivot to Position 1
+        if (gamepad2.x){
             twaRobot.hw.relicClaw.pivotPosition1();
-        } else if(gamepad1.back){
+        }//Set Relic CLaw Pivot to Position 2
+        else if(gamepad2.y){
             twaRobot.hw.relicClaw.pivotPosition2();
         } else{
 
