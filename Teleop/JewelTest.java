@@ -39,9 +39,9 @@ public class JewelTest extends OpMode
     {
         joy1.update(gamepad1);
         if (gamepad1.left_bumper){
-            twaRobot.hw.jewelArm.adjustDown();
+            twaRobot.hw.jewelArm.down();
         } else if(gamepad1.right_bumper){
-            twaRobot.hw.jewelArm.adjustUp();
+            twaRobot.hw.jewelArm.up();
         } else if(gamepad1.a && gamepad1.b){
 
         }

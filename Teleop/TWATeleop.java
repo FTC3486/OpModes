@@ -34,6 +34,9 @@ public class TWATeleop extends OpMode
         twaRobot.hw.glyphGrabber.collapsed();
 
         spinnerPos = 0;
+
+        twaRobot.hw.jewelArm.up();
+        twaRobot.hw.relicClaw.openClaw();
     }
 
     @Override
@@ -49,6 +52,7 @@ public class TWATeleop extends OpMode
     @Override
     public void loop()
     {
+        twaRobot.hw.jewelArm.up();
         joy1.update(gamepad1);
 
         //Toggle Half Speed on the drivetrain
@@ -70,12 +74,13 @@ public class TWATeleop extends OpMode
                 teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.FORWARD);
             }
         }
+
         //Reset to position 1
-        if(gamepad1.dpad_down){
+        /*if(gamepad1.dpad_down){
              twaRobot.hw.spinner.Reset();
-        }
+        }*/
         //Spin Glyph grabber and Swap Glyph Grabber buttons so button orintation stays the same
-        else if(joy1.toggle.y){
+         if(joy1.toggle.y){
             if(twaRobot.hw.glyphLift.liftTouch.getState() == false && spinnerPos != 0) {
                 twaRobot.hw.glyphLift.shortlift();
                 twaRobot.hw.spinner.Position2();
@@ -84,20 +89,24 @@ public class TWATeleop extends OpMode
                 twaRobot.hw.spinner.Position2();
                 spinnerPos = 0;
             }
-            //Open top grabber while button is held
-            if (gamepad1.left_bumper){
-                twaRobot.hw.glyphGrabber.openGrabber1();
-            } else {
-                twaRobot.hw.glyphGrabber.closeGrabber1();
-            }
-            //Open bottom grabber while button is held
-            if (joy1.toggle.right_bumper){
-                twaRobot.hw.glyphGrabber.openGrabber2();
-            } else {
-                twaRobot.hw.glyphGrabber.closeGrabber2();
-            }
+
+             //Open bottom grabber while button is held
+             if (joy1.toggle.right_bumper){
+                 twaRobot.hw.glyphGrabber.openGrabber1();
+             } else {
+                 twaRobot.hw.glyphGrabber.closeGrabber1();
+             }
+             //Open top grabber while button is held
+             if (gamepad1.left_bumper){
+                 twaRobot.hw.glyphGrabber.openGrabber2();
+             } else {
+                 twaRobot.hw.glyphGrabber.closeGrabber2();
+             }
 
         }else{
+             if (twaRobot.hw.spinner.spinnerTouch.getState() == false){
+                 twaRobot.hw.spinner.stop();
+             }
             //Spin Glyph grabber and Swap Glyph Grabber buttons so button orintation stays the same
             if(twaRobot.hw.glyphLift.liftTouch.getState() == false && spinnerPos != 1) {
                 twaRobot.hw.glyphLift.shortlift();
@@ -107,18 +116,20 @@ public class TWATeleop extends OpMode
                 twaRobot.hw.spinner.Position1();
                 spinnerPos = 1;
             }
-            //Open bottom grabber while button is held
-            if (joy1.toggle.right_bumper){
-                twaRobot.hw.glyphGrabber.openGrabber1();
-            } else {
-                twaRobot.hw.glyphGrabber.closeGrabber1();
-            }
-            //Open top grabber while button is held
-            if (gamepad1.left_bumper){
-                twaRobot.hw.glyphGrabber.openGrabber2();
-            } else {
-                twaRobot.hw.glyphGrabber.closeGrabber2();
-            }
+
+             //Open top grabber while button is held
+             if (gamepad1.left_bumper){
+                 twaRobot.hw.glyphGrabber.openGrabber1();
+             } else {
+                 twaRobot.hw.glyphGrabber.closeGrabber1();
+             }
+             //Open bottom grabber while button is held
+             if (joy1.toggle.right_bumper){
+                 twaRobot.hw.glyphGrabber.openGrabber2();
+             } else {
+                 twaRobot.hw.glyphGrabber.closeGrabber2();
+             }
+
         }
 
         //Lift Glyph Grabber while button is held
