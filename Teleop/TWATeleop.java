@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TeleopDriver;
  * Created by 3486 on 7/15/2017.
  */
 
-@TeleOp(name="TWA Teleop", group="Teleop2016")
+@TeleOp(name="TWA Teleop", group="Teleop2017")
 
 public class TWATeleop extends OpMode
 {
@@ -76,11 +76,14 @@ public class TWATeleop extends OpMode
         }
 
         //Reset to position 1
-        /*if(gamepad1.dpad_down){
-             twaRobot.hw.spinner.Reset();
-        }*/
+        if(gamepad1.dpad_down){
+      //       twaRobot.hw.spinner.Reset();
+        }
         //Spin Glyph grabber and Swap Glyph Grabber buttons so button orintation stays the same
-         if(joy1.toggle.y){
+         else if(joy1.toggle.y){
+            if (twaRobot.hw.spinner.spinnerTouch.getState() == false){
+                twaRobot.hw.spinner.stop();
+            }
             if(twaRobot.hw.glyphLift.liftTouch.getState() == false && spinnerPos != 0) {
                 twaRobot.hw.glyphLift.shortlift();
                 twaRobot.hw.spinner.Position2();
