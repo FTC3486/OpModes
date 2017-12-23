@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.Teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.GlyphGrabber;
  */
 
 @TeleOp(name="GlyphGrabberTest", group="Teleop2016")
-
+@Disabled
 public class GlyphGrabberTest extends OpMode
 {
     GamepadWrapper joy1;

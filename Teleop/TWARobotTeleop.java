@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.Teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TestRobot;
  */
 
 @TeleOp(name="TWARobot Teleop", group="Teleop2016")
-
+@Disabled
 public class TWARobotTeleop extends OpMode
 {
     TWARobot twaRobot = new TWARobot(this);

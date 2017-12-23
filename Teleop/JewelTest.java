@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.Teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Spinner;
  */
 
 @TeleOp(name="Jewel Test", group="Teleop2016")
-
+@Disabled
 public class JewelTest extends OpMode
 {
     GamepadWrapper joy1;

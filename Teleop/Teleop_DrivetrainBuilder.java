@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes.Teleop;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.TuskGate;
  * Created by John Paul Ashour on 11/5/2016.
  */
 @TeleOp(name="Teleop With DrivetrainBuilder", group="Teleop2016")
+@Disabled
 public class Teleop_DrivetrainBuilder extends OpMode{
     GamepadWrapper joy1;
     GamepadWrapper joy2;

@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes.Teleop;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by John Paul Ashour on 11/5/2016.
  */
 @TeleOp(name="Teleop Encoder Test", group="Teleop2016")
+@Disabled
 public class Teleop_Encoder_Test extends OpMode{
 /*    GamepadWrapper joy1;
     GamepadWrapper joy2;
