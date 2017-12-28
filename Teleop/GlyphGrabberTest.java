@@ -3,11 +3,8 @@ package org.firstinspires.ftc.teamcode.OpModes.Teleop;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.GamepadWrapper;
-import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TWARobot;
-import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TeleopDriver;
 import org.firstinspires.ftc.teamcode.Subsystems.GlyphGrabber;
 
 /**
@@ -59,10 +56,10 @@ public class GlyphGrabberTest extends OpMode
         }else if(gamepad1.dpad_down){
             glyphGrabber.collapsed();
         }
-        telemetry.addData("Left 1", glyphGrabber.LeftServo1.getPosition());
-        telemetry.addData("Right 1", glyphGrabber.RightServo1.getPosition());
-        telemetry.addData("Left 2", glyphGrabber.LeftServo2.getPosition());
-        telemetry.addData("Right 2", glyphGrabber.RightServo2.getPosition());
+        telemetry.addData("Left 1", glyphGrabber.gripAleftservo.getPosition());
+        telemetry.addData("Right 1", glyphGrabber.gripArightservo.getPosition());
+        telemetry.addData("Left 2", glyphGrabber.gripBleftservo.getPosition());
+        telemetry.addData("Right 2", glyphGrabber.gripBrightservo.getPosition());
         telemetry.update();
 
     }
