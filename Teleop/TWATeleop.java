@@ -117,6 +117,7 @@ public class TWATeleop extends OpMode {
             twaRobot.hw.relicClaw.pivotPosition2();
         }
 
+        telemetry.addData("GlyphGrabber",twaRobot.hw.glyphGrabber);
         telemetry.addData("GlyphSpinner", twaRobot.hw.glyphSpinner);
         telemetry.addData("GlyphLift", twaRobot.hw.glyphLift);
     }
