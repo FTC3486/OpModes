@@ -41,6 +41,13 @@ public class TWATeleop extends OpMode {
     }
 
     @Override
+    public void init_loop() {
+        telemetry.addData("GlyphGrabber",twaRobot.hw.glyphGrabber);
+        telemetry.addData("GlyphSpinner", twaRobot.hw.glyphSpinner);
+        telemetry.addData("GlyphLift", twaRobot.hw.glyphLift);
+    }
+
+    @Override
     public void loop() {
         twaRobot.hw.jewelArm.up();
         joy1.update(gamepad1);
