@@ -28,7 +28,6 @@ public class TWATeleop extends OpMode {
         joy1 = new GamepadWrapper();
 
         //Initial subsystem positions
-        twaRobot.hw.glyphGrabber.collapsed();
 
         spinnerPos = 0;
 
@@ -36,10 +35,6 @@ public class TWATeleop extends OpMode {
         twaRobot.hw.relicClaw.openClaw();
     }
 
-    @Override
-    public void init_loop() {
-        twaRobot.hw.glyphSpinner.stop();
-    }
 
     @Override
     public void start() {
@@ -122,7 +117,7 @@ public class TWATeleop extends OpMode {
             twaRobot.hw.relicClaw.pivotPosition2();
         }
 
-        telemetry.addData("SpinnerPosition", twaRobot.hw.glyphSpinner.Spinner.getCurrentPosition());
+        telemetry.addData("GlyphSpinner", twaRobot.hw.glyphSpinner);
         telemetry.addData("GlyphLift", twaRobot.hw.glyphLift);
     }
 
