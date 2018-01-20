@@ -56,16 +56,16 @@ public class TWATeleop extends OpMode {
         if (joy1.toggle.right_stick_button) {
             //Swap front and back of the robot, and control the drive train at half speed
             if (joy1.toggle.left_stick_button) {
-                teleopDriver.half_speed_tank_drive(gamepad1, TeleopDriver.Direction.BACKWARD);
+                teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.BACKWARD);
             } else {
-                teleopDriver.half_speed_tank_drive(gamepad1, TeleopDriver.Direction.FORWARD);
+                teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.FORWARD);
             }
         } else {
             //Swap front and back of the robot, and control the drive train
             if (joy1.toggle.left_stick_button) {
-                teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.BACKWARD);
+                teleopDriver.half_speed_tank_drive(gamepad1, TeleopDriver.Direction.BACKWARD);
             } else {
-                teleopDriver.tank_drive(gamepad1, TeleopDriver.Direction.FORWARD);
+                teleopDriver.half_speed_tank_drive(gamepad1, TeleopDriver.Direction.FORWARD);
             }
         }
 
