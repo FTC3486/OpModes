@@ -4,19 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.AutoTWA;
-import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TWA;
 
 /**
  * Created by Matthew on 7/1/2017.
  */
 
-@Autonomous(name = "Jewel Blue Auto", group = "BlueAuto")
-public class JewelAutoBlue extends LinearOpMode {
+@Autonomous(name = "Blue Right Auto", group = "BlueAuto")
+public class BlueAutoRight extends LinearOpMode {
     AutoTWA twaRobot = new AutoTWA(this);
-
-
-    //double redminusblue = twaRobot.hw.jewelArm.jewelColor.red() - twaRobot.hw.jewelArm.jewelColor.blue();
-    //double blueminusred = twaRobot.hw.jewelArm.jewelColor.blue() - twaRobot.hw.jewelArm.jewelColor.red();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,8 +23,10 @@ public class JewelAutoBlue extends LinearOpMode {
 
          twaRobot.hw.jewelArm.down();
         sleep(1000);
+        twaRobot.hw.glyphGrabber.gripBottom(true, twaRobot.hw.glyphSpinner.isFlipped());
+        sleep(200);
 
-
+//Detect the Jewel color and follow through with appropriate movement to score the jewel
         if (twaRobot.hw.jewelArm.jewelColor.red() <= 10 && twaRobot.hw.jewelArm.jewelColor.blue() <= 10){
             sleep(200);
             twaRobot.hw.jewelArm.up();
@@ -41,7 +38,6 @@ public class JewelAutoBlue extends LinearOpMode {
         }
          else if (
                  twaRobot.hw.jewelArm.jewelColor.red() > twaRobot.hw.jewelArm.jewelColor.blue()
-                 //twaRobot.hw.jewelArm.jewelColor.red() >= 30 && twaRobot.hw.jewelArm.jewelColor.blue() < 30
         ){
             twaRobot.hw.gyroAutoDriver.driveStraightBackwards(5, 0.2);
 
@@ -54,7 +50,6 @@ public class JewelAutoBlue extends LinearOpMode {
             twaRobot.hw.drivetrain.haltDrive();
         }else if (
                 twaRobot.hw.jewelArm.jewelColor.blue() > twaRobot.hw.jewelArm.jewelColor.red()
-                //twaRobot.hw.jewelArm.jewelColor.blue() >= 30 && twaRobot.hw.jewelArm.jewelColor.red() < 30
                 ){
             twaRobot.hw.gyroAutoDriver.driveStraightForwards(5, 0.2);
 
@@ -65,13 +60,17 @@ public class JewelAutoBlue extends LinearOpMode {
             sleep(200);
             twaRobot.hw.gyroAutoDriver.driveStraightBackwards(50, 0.2);
             twaRobot.hw.drivetrain.haltDrive();
-
         }
+        //Rotate and score Glyph in Cryptobox
+        twaRobot.hw.encoderAutoDriver.spinRight(-9, 9);
+        sleep(200);
+        twaRobot.hw.gyroAutoDriver.driveStraightForwards(5, 0.5);
+        sleep(200);
+        twaRobot.hw.glyphGrabber.gripBottom(false, twaRobot.hw.glyphSpinner.isFlipped());
+        sleep(200);
+        twaRobot.hw.gyroAutoDriver.driveStraightBackwards(3, 0.5);
+        twaRobot.hw.drivetrain.haltDrive();
 
-       //twaRobot.hw.encoderAutoDriver.spinLeft(-4, 4);
 
-        //twaRobot.hw.gyroAutoDriver.driveStraightForwards(48, 0.2);
-        //twaRobot.hw.encoderAutoDriver.driveLeftSideToDistance(-9);
-        //twaRobot.hw.encoderAutoDriver.driveRightSideToDistance(9);
     }
 }

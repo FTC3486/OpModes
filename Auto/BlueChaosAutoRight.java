@@ -4,14 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RobotCoreExtensions.AutoTWA;
-import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TWA;
 
 /**
  * Created by Matthew on 7/1/2017.
  */
 
-@Autonomous(name = "Jewel Blue Auto", group = "BlueAuto")
-public class JewelAutoBlue extends LinearOpMode {
+@Autonomous(name = "Blue Chaos Auto Right", group = "BlueAuto")
+public class BlueChaosAutoRight extends LinearOpMode {
     AutoTWA twaRobot = new AutoTWA(this);
 
 
@@ -68,10 +67,6 @@ public class JewelAutoBlue extends LinearOpMode {
 
         }
 
-       //twaRobot.hw.encoderAutoDriver.spinLeft(-4, 4);
 
-        //twaRobot.hw.gyroAutoDriver.driveStraightForwards(48, 0.2);
-        //twaRobot.hw.encoderAutoDriver.driveLeftSideToDistance(-9);
-        //twaRobot.hw.encoderAutoDriver.driveRightSideToDistance(9);
     }
 }

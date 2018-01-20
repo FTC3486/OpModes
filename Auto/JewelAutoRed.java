@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.RobotCoreExtensions.AutoTWA;
  * Created by Matthew on 7/1/2017.
  */
 
-@Autonomous(name = "Jewel Red Auto", group = "TestAutonomous")
+@Autonomous(name = "Jewel Red Auto", group = "RedAuto")
 public class JewelAutoRed extends LinearOpMode {
     AutoTWA twaRobot = new AutoTWA(this);
     @Override
