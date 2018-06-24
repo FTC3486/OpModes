@@ -79,8 +79,7 @@ public class BlueAutoRight extends LinearOpMode {
         //Rotate and score Glyph in Cryptobox
         twaRobot.hw.encoderAutoDriver.spinRight(10, -10);
         sleep(200);
-        twaRobot.hw.gyroAutoDriver.driveStraightForwards(3
-                56, 0.5);
+        twaRobot.hw.gyroAutoDriver.driveStraightForwards(356, 0.5);
         sleep(200);
         twaRobot.hw.glyphGrabber.gripBottom(false, twaRobot.hw.glyphSpinner.isFlipped());
         sleep(200);
