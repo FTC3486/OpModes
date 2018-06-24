@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.RobotCoreExtensions.TWA;
  */
 
 @TeleOp(name="Jewel Test", group="Teleop2016")
-@Disabled
+//@Disabled
 public class JewelTest extends OpMode
 {
     GamepadWrapper joy1;

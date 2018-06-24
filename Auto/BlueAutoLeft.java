@@ -22,11 +22,19 @@ public class BlueAutoLeft extends LinearOpMode {
         twaRobot.init();
         twaRobot.hw.jewelArm.autoInit();
 
+
         waitForStart();
         twaRobot.hw.drivetrain.resetMotorEncoders();
 
          twaRobot.hw.jewelArm.down();
         sleep(1000);
+
+        twaRobot.hw.glyphGrabber.gripBottom(true, twaRobot.hw.glyphSpinner.isFlipped());
+        sleep(200);
+        twaRobot.hw.glyphLift.lift();
+        sleep(500);
+        twaRobot.hw.glyphLift.stop();
+        sleep(200);
 
 
         if (twaRobot.hw.jewelArm.jewelColor.red() <= 10 && twaRobot.hw.jewelArm.jewelColor.blue() <= 10){
@@ -35,7 +43,7 @@ public class BlueAutoLeft extends LinearOpMode {
             sleep(200);
             twaRobot.hw.drivetrain.haltDrive();
             sleep(200);
-            twaRobot.hw.gyroAutoDriver.driveStraightBackwards(30, 0.2);
+            twaRobot.hw.gyroAutoDriver.driveStraightBackwards(10, 0.2);
             twaRobot.hw.drivetrain.haltDrive();
         }
          else if (
@@ -49,7 +57,7 @@ public class BlueAutoLeft extends LinearOpMode {
             sleep(200);
             twaRobot.hw.drivetrain.haltDrive();
             sleep(200);
-            twaRobot.hw.gyroAutoDriver.driveStraightBackwards(24, 0.2);
+            twaRobot.hw.gyroAutoDriver.driveStraightBackwards(10, 0.2);
             twaRobot.hw.drivetrain.haltDrive();
         }else if (
                 twaRobot.hw.jewelArm.jewelColor.blue() > twaRobot.hw.jewelArm.jewelColor.red()
@@ -62,12 +70,29 @@ public class BlueAutoLeft extends LinearOpMode {
             sleep(200);
             twaRobot.hw.drivetrain.haltDrive();
             sleep(200);
-            twaRobot.hw.gyroAutoDriver.driveStraightBackwards(50, 0.2);
+            twaRobot.hw.gyroAutoDriver.driveStraightBackwards(30, 0.2);
             twaRobot.hw.drivetrain.haltDrive();
 
         }
 
-       //twaRobot.hw.encoderAutoDriver.spinLeft(-4, 4);
+       twaRobot.hw.encoderAutoDriver.spinLeft(-10, 10);
+        sleep(200);
+        twaRobot.hw.gyroAutoDriver.driveStraightForwards(5, 0.5);
+        sleep(200);
+
+        twaRobot.hw.encoderAutoDriver.spinLeft(-10, 10);
+        sleep(200);
+        twaRobot.hw.gyroAutoDriver.driveStraightForwards(8, 0.5);
+        sleep(200);
+
+        twaRobot.hw.glyphGrabber.gripBottom(false, twaRobot.hw.glyphSpinner.isFlipped());
+        sleep(200);
+
+        twaRobot.hw.gyroAutoDriver.driveStraightForwards(3, 0.5);
+        sleep(200);
+
+        twaRobot.hw.gyroAutoDriver.driveStraightBackwards(3, 0.5);
+        twaRobot.hw.drivetrain.haltDrive();
 
         //twaRobot.hw.gyroAutoDriver.driveStraightForwards(48, 0.2);
         //twaRobot.hw.encoderAutoDriver.driveLeftSideToDistance(-9);

@@ -99,10 +99,10 @@ public class TWATeleop extends OpMode {
             twaRobot.hw.relicLift.stop();
         }
         //Extends Relic Arm while button is held
-        if (gamepad2.dpad_left) {
+        if (gamepad2.dpad_right) {
             twaRobot.hw.relicArm.extend();
         }//Retracts Relic Arm while button is held
-        else if (gamepad2.dpad_right) {
+        else if (gamepad2.dpad_left) {
             twaRobot.hw.relicArm.retract();
         }//Stop all Relic Arm motion while nothing is pressed
         else {

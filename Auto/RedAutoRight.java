@@ -25,6 +25,13 @@ public class RedAutoRight extends LinearOpMode {
 
          twaRobot.hw.jewelArm.down();
         sleep(1000);
+        twaRobot.hw.glyphGrabber.gripBottom(true, twaRobot.hw.glyphSpinner.isFlipped());
+        sleep(200);
+
+        twaRobot.hw.glyphLift.lift();
+        sleep(500);
+        twaRobot.hw.glyphLift.stop();
+        sleep(200);
 
 
         if (twaRobot.hw.jewelArm.jewelColor.red() <= 10 && twaRobot.hw.jewelArm.jewelColor.blue() <= 10) {
@@ -33,7 +40,7 @@ public class RedAutoRight extends LinearOpMode {
             sleep(200);
             twaRobot.hw.drivetrain.haltDrive();
             sleep(200);
-            twaRobot.hw.gyroAutoDriver.driveStraightForwards(30, 0.2);
+            twaRobot.hw.gyroAutoDriver.driveStraightForwards(15, 0.2);
             twaRobot.hw.drivetrain.haltDrive();
         }else if (
                 //blueminusred > 10
@@ -47,7 +54,7 @@ public class RedAutoRight extends LinearOpMode {
             sleep(200);
             twaRobot.hw.drivetrain.haltDrive();
             sleep(200);
-            twaRobot.hw.gyroAutoDriver.driveStraightForwards(24, 0.2);
+            twaRobot.hw.gyroAutoDriver.driveStraightForwards(11, 0.2);
             twaRobot.hw.drivetrain.haltDrive();
         }else if (
                 //twaRobot.hw.jewelArm.jewelColor.blue() >= 30 && twaRobot.hw.jewelArm.jewelColor.red() < 30
@@ -61,10 +68,22 @@ public class RedAutoRight extends LinearOpMode {
             sleep(200);
             twaRobot.hw.drivetrain.haltDrive();
             sleep(200);
-            twaRobot.hw.gyroAutoDriver.driveStraightForwards(42, 0.2);
+            twaRobot.hw.gyroAutoDriver.driveStraightForwards(30, 0.2);
             twaRobot.hw.drivetrain.haltDrive();
 
         }
+
+        //Rotate and score Glyph in Cryptobox
+        twaRobot.hw.encoderAutoDriver.spinLeft(-3, 3);
+        sleep(200);
+        twaRobot.hw.gyroAutoDriver.driveStraightForwards(8, 0.5);
+        sleep(200);
+        twaRobot.hw.glyphGrabber.gripBottom(false, twaRobot.hw.glyphSpinner.isFlipped());
+        sleep(200);
+        twaRobot.hw.gyroAutoDriver.driveStraightForwards(3, 0.5);
+        sleep(200);
+        twaRobot.hw.gyroAutoDriver.driveStraightBackwards(2, 0.5);
+        twaRobot.hw.drivetrain.haltDrive();
 
        //twaRobot.hw.encoderAutoDriver.spinLeft(-4, 4);
 
